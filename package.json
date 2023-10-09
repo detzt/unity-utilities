@@ -1,0 +1,22 @@
+{
+  "name": "com.detzt.unity-utilities",
+  "version": "1.0.0",
+  "displayName": "Unity Utilities",
+  "description": "Collection of project agnostic utilities and extensions for Unity.",
+  "unity": "2021.3",
+  "documentationUrl": "https://github.com/detzt/unity-utilities",
+  "changelogUrl": "https://github.com/detzt/unity-utilities/blob/main/CHANGELOG.md",
+  "licensesUrl": "https://github.com/detzt/unity-utilities/blob/main/LICENSE.md",
+  "license": "MIT",
+  "keywords": [
+    "utility",
+    "utils",
+    "extensions"
+  ],
+  "author": {
+    "name": "Aaron Grabowy",
+    "email": "unity@aarongra.33m.co",
+    "url": "https://github.com/detzt"
+  },
+  "type": "tool"
+}
