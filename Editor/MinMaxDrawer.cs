@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEditor;
 
 [CustomPropertyDrawer(typeof(MinMax<>))]
-public class MinMaxEditor<T> : PropertyDrawer {
+public class MinMaxEditor : PropertyDrawer {
     public override void OnGUI(Rect rect, SerializedProperty property, GUIContent label) {
         // Using BeginProperty / EndProperty on the parent property means that
         // prefab override logic works on the entire property.
@@ -24,8 +24,8 @@ public class MinMaxEditor<T> : PropertyDrawer {
         var rect2 = new Rect(rect.x + fieldWidth, rect.y, fieldWidth, rect.height);
 
         // Draw fields - pass GUIContent.none to each so they are drawn without labels
-        _ = EditorGUI.PropertyField(rect1, property.FindPropertyRelative(nameof(MinMax<T>.Min)), new GUIContent("░ "));
-        _ = EditorGUI.PropertyField(rect2, property.FindPropertyRelative(nameof(MinMax<T>.Max)), new GUIContent(" -"));
+        _ = EditorGUI.PropertyField(rect1, property.FindPropertyRelative(nameof(MinMax<int>.Min)), new GUIContent("░ "));
+        _ = EditorGUI.PropertyField(rect2, property.FindPropertyRelative(nameof(MinMax<int>.Max)), new GUIContent(" -"));
 
         // Restore indent
         EditorGUI.indentLevel = prevIndent;

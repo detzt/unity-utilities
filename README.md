@@ -3,7 +3,7 @@ This is a collection of project agnostic utilities and extensions for Unity.
 
 ## Serializable Types with Custom Editors
 - `Couple`, `Triple`, `Map`, `MinMax`, and `OptionalValue`
-- `MinMaxSlider` attribute (uses NaughtyAttributes)
+- `MinMaxSlider` attribute
 
 ## Attributes
 - `AutoSetup` attribute that tries to wire component references automatically

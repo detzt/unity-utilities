@@ -1,22 +1,23 @@
-﻿using NaughtyAttributes.Editor;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 [CustomPropertyDrawer(typeof(MinMaxSliderAttribute))]
-public class MinMaxSliderDrawer : PropertyDrawerBase {
-    protected override float GetPropertyHeight_Internal(SerializedProperty property, GUIContent label) {
-        return GetPropertyHeight(property.FindPropertyRelative(nameof(MinMax<float>.Min)));
+public class MinMaxSliderDrawer : PropertyDrawer {
+    public override float GetPropertyHeight(SerializedProperty property, GUIContent label) {
+        return base.GetPropertyHeight(property.FindPropertyRelative(nameof(MinMax<float>.Min)), label);
     }
 
-    protected override void OnGUI_Internal(Rect rect, SerializedProperty property, GUIContent label) {
+    public override void OnGUI(Rect rect, SerializedProperty property, GUIContent label) {
         _ = EditorGUI.BeginProperty(rect, label, property);
 
         var minMaxSliderAttribute = (MinMaxSliderAttribute)attribute;
 
         _ = EditorGUI.BeginProperty(rect, label, property);
 
-        float indentLength = NaughtyEditorGUI.GetIndentLength(rect);
-        float labelWidth = EditorGUIUtility.labelWidth + NaughtyEditorGUI.HorizontalSpacing;
+        Rect indentRect = EditorGUI.IndentedRect(rect);
+        float indentLength = indentRect.x - rect.x;
+        const float horizontalSpacing = 2.0f;
+        float labelWidth = EditorGUIUtility.labelWidth + horizontalSpacing;
         float floatFieldWidth = EditorGUIUtility.fieldWidth;
         float sliderWidth = rect.width - labelWidth - 2.0f * floatFieldWidth;
         float sliderPadding = 5.0f;

@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Serializable `Couple`, `Triple`, `Map`, `MinMax`, and `OptionalValue` types with custom editors
-- `MinMaxSlider` attribute (uses NaughtyAttributes)
+- `MinMaxSlider` attribute
 - `AutoSetup` attribute that tries to wire component references automatically
 - Extensions to Unity Vector types:
   - `.With`, `.Add`, and `.Rotate` modifications, e.g. `Vector3 v = Vector3.up.With(y: 25f);`
