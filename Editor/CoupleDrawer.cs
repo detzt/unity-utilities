@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -7,6 +6,9 @@ using UnityEngine.UIElements;
 [CustomPropertyDrawer(typeof(Couple<,>))]
 public class CoupleEditor : PropertyDrawer {
 
+    /// <summary>
+    /// UI Toolkit implementation
+    /// </summary>
     public override VisualElement CreatePropertyGUI(SerializedProperty property) {
         // Create property container element
         var container = new VisualElement();
@@ -19,24 +21,13 @@ public class CoupleEditor : PropertyDrawer {
         item2.style.flexGrow = 1f;
         item1.style.flexBasis = 0f; // Set a fixed base width independent of the property's value
         item2.style.flexBasis = 0f;
-        item2.generateVisualContent += RemoveLabelResizing; // remove the alignment class from the second field once it is drawn
+        item2.generateVisualContent += EditorUtils.RemoveLabelResizing; // remove the alignment class from the second field once it is drawn
 
         // Add fields to the container
         container.Add(item1);
         container.Add(item2);
 
         return container;
-    }
-
-    /// <summary>
-    /// Removes the auto alignment of the label from the given PropertyField (callback)
-    /// </summary>
-    /// <param name="ctx">The callback parameter from <see cref="PropertyField.generateVisualContent"/></param>
-    private void RemoveLabelResizing(MeshGenerationContext ctx) {
-        var field = ctx.visualElement.Children().First();
-        field.RemoveFromClassList("unity-base-field__aligned"); // prevent auto alignment
-        field.Children().First().style.minWidth = 12f;
-        field.style.marginLeft = 5f;
     }
 
     /// <summary>

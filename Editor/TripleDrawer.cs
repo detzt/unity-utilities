@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -7,6 +6,9 @@ using UnityEngine.UIElements;
 [CustomPropertyDrawer(typeof(Triple<,,>))]
 public class TripleEditor : PropertyDrawer {
 
+    /// <summary>
+    /// UI Toolkit implementation
+    /// </summary>
     public override VisualElement CreatePropertyGUI(SerializedProperty property) {
         // Create property container element
         var container = new VisualElement();
@@ -22,8 +24,8 @@ public class TripleEditor : PropertyDrawer {
         item1.style.flexBasis = 0f; // Set a fixed base width independent of the property's value
         item2.style.flexBasis = 0f;
         item3.style.flexBasis = 0f;
-        item2.generateVisualContent += RemoveLabelResizing; // remove the alignment class from the second field once it is drawn
-        item3.generateVisualContent += RemoveLabelResizing;
+        item2.generateVisualContent += EditorUtils.RemoveLabelResizing; // remove the alignment class from the second field once it is drawn
+        item3.generateVisualContent += EditorUtils.RemoveLabelResizing;
 
         // Add fields to the container
         container.Add(item1);
@@ -34,16 +36,8 @@ public class TripleEditor : PropertyDrawer {
     }
 
     /// <summary>
-    /// Removes the auto alignment of the label from the given PropertyField (callback)
+    /// Fallback to the IMGUI version when used within a custom IMGUI editor
     /// </summary>
-    /// <param name="ctx">The callback parameter from <see cref="PropertyField.generateVisualContent"/></param>
-    private void RemoveLabelResizing(MeshGenerationContext ctx) {
-        var field = ctx.visualElement.Children().First();
-        field.RemoveFromClassList("unity-base-field__aligned"); // prevent auto alignment
-        field.Children().First().style.minWidth = 12f;
-        field.style.marginLeft = 5f;
-    }
-
     public override void OnGUI(Rect rect, SerializedProperty property, GUIContent label) {
         // Using BeginProperty / EndProperty on the parent property means that
         // prefab override logic works on the entire property.
