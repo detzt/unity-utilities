@@ -12,7 +12,7 @@ public class Vector4Drawer : PropertyDrawer {
     public override VisualElement CreatePropertyGUI(SerializedProperty property) {
         // Create property container element
         var input = new VisualElement();
-        input.style.flexDirection = FlexDirection.Row;
+        input.AddToClassList("input-container");
 
         // Create property fields
         var names = new List<string> {

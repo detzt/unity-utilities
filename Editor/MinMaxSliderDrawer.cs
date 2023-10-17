@@ -16,7 +16,7 @@ public class MinMaxSliderDrawer : PropertyDrawer {
 
         // Create property container element
         var input = new VisualElement();
-        input.style.flexDirection = FlexDirection.Row;
+        input.AddToClassList("input-container");
 
         // property fields
         var slider = new MinMaxSlider(minProperty.floatValue, maxProperty.floatValue, minMaxSliderAttribute.MinValue, minMaxSliderAttribute.MaxValue);

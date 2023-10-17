@@ -21,7 +21,7 @@ public abstract class CompositeDrawer : PropertyDrawer {
     public override VisualElement CreatePropertyGUI(SerializedProperty property) {
         // Create property container element
         var input = new VisualElement();
-        input.style.flexDirection = FlexDirection.Row;
+        input.AddToClassList("input-container");
 
         // Create property fields
         var names = GetNames();
@@ -30,7 +30,7 @@ public abstract class CompositeDrawer : PropertyDrawer {
         }
 
         // Add fields to the container
-        var container = new GenericField<Triple<int, int, int>>(property.displayName, input, setupCompositeInput: true);
+        var container = new GenericField<System.Type>(property.displayName, input, setupCompositeInput: true);
         return container;
     }
 

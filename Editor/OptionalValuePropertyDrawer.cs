@@ -1,8 +1,44 @@
 ﻿using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [CustomPropertyDrawer(typeof(OptionalValue<>))]
 public class OptionalValuePropertyDrawer : PropertyDrawer {
+
+    #region UI Toolkit implementation
+
+    public override VisualElement CreatePropertyGUI(SerializedProperty property) {
+        // Create property container element
+        var input = new VisualElement();
+        input.AddToClassList("input-container");
+
+        // Create property fields
+        var enabledProperty = property.FindPropertyRelative("enabled");
+        var valueProperty = property.FindPropertyRelative("value");
+        var enabledField = new PropertyField(enabledProperty, "");
+        var valueField = new PropertyField(valueProperty, "");
+        enabledField.AddToClassList("optional-toggle");
+        valueField.AddToClassList("optional-value");
+
+        // Add fields to the container
+        input.Add(enabledField);
+        input.Add(valueField);
+        var container = new GenericField<System.Type>(property.displayName, input);
+
+        // Actual functionality of disabling the value field when the enabled field is false
+        valueField.SetEnabled(enabledProperty.boolValue);
+        enabledField.RegisterValueChangeCallback(evt => {
+            valueField.SetEnabled(evt.changedProperty.boolValue);
+        });
+
+        return container;
+    }
+
+    #endregion
+
+    #region IMGUI implementation
+
     private readonly GUIContent whiteSpace = new("   ");
 
     /// <summary>
@@ -30,4 +66,5 @@ public class OptionalValuePropertyDrawer : PropertyDrawer {
         boolRect.width = EditorGUIUtility.labelWidth - 30f;
         enabledProperty.boolValue = EditorGUI.ToggleLeft(boolRect, property.displayName, enabledProperty.boolValue);
     }
+    #endregion
 }
