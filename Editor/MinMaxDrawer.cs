@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -6,29 +7,31 @@ using UnityEngine.UIElements;
 [CustomPropertyDrawer(typeof(MinMax<>))]
 public class MinMaxEditor : PropertyDrawer {
 
-    /// <summary>
-    /// UI Toolkit implementation
-    /// </summary>
+    #region UI Toolkit implementation
+
     public override VisualElement CreatePropertyGUI(SerializedProperty property) {
         // Create property container element
-        var container = new VisualElement();
-        container.style.flexDirection = FlexDirection.Row;
+        var input = new VisualElement();
+        input.style.flexDirection = FlexDirection.Row;
 
         // Create property fields
-        var min = new PropertyField(property.FindPropertyRelative(nameof(MinMax<int>.Min)), property.displayName);
-        var max = new PropertyField(property.FindPropertyRelative(nameof(MinMax<int>.Max)), " -");
-        min.style.flexGrow = 2f; // First item includes the label, so it should be wider
-        max.style.flexGrow = 1f;
-        min.style.flexBasis = 0f; // Set a fixed base width independent of the property's value
-        max.style.flexBasis = 0f;
-        max.generateVisualContent += EditorUtils.RemoveLabelResizing; // remove the alignment class from the second field once it is drawn
+        var names = new List<string> {
+            nameof(MinMax<int>.Min),
+            nameof(MinMax<int>.Max)
+        };
+        var titles = new List<string> { "░", " -" };
+        for(int i = 0; i < 2; i++) {
+            input.Add(new PropertyField(property.FindPropertyRelative(names[i]), titles[i]));
+        }
 
         // Add fields to the container
-        container.Add(min);
-        container.Add(max);
-
+        var container = new GenericField<MinMax<int>>(property.displayName, input, setupCompositeInput: true);
         return container;
     }
+
+    #endregion
+
+    #region IMGUI implementation
 
     /// <summary>
     /// Fallback to the IMGUI version when used within a custom IMGUI editor
@@ -63,4 +66,5 @@ public class MinMaxEditor : PropertyDrawer {
 
         EditorGUI.EndProperty();
     }
+    #endregion
 }

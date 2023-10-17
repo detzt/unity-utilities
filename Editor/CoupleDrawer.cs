@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -6,29 +7,30 @@ using UnityEngine.UIElements;
 [CustomPropertyDrawer(typeof(Couple<,>))]
 public class CoupleEditor : PropertyDrawer {
 
-    /// <summary>
-    /// UI Toolkit implementation
-    /// </summary>
+    #region UI Toolkit implementation
+
     public override VisualElement CreatePropertyGUI(SerializedProperty property) {
         // Create property container element
-        var container = new VisualElement();
-        container.style.flexDirection = FlexDirection.Row;
+        var input = new VisualElement();
+        input.style.flexDirection = FlexDirection.Row;
 
         // Create property fields
-        var item1 = new PropertyField(property.FindPropertyRelative(nameof(Couple<int, int>.Item1)), property.displayName);
-        var item2 = new PropertyField(property.FindPropertyRelative(nameof(Couple<int, int>.Item2)), "░ ");
-        item1.style.flexGrow = 2f; // First item includes the label, so it should be wider
-        item2.style.flexGrow = 1f;
-        item1.style.flexBasis = 0f; // Set a fixed base width independent of the property's value
-        item2.style.flexBasis = 0f;
-        item2.generateVisualContent += EditorUtils.RemoveLabelResizing; // remove the alignment class from the second field once it is drawn
+        var names = new List<string> {
+            nameof(Couple<int, int>.Item1),
+            nameof(Couple<int, int>.Item2)
+        };
+        for(int i = 0; i < 2; i++) {
+            input.Add(new PropertyField(property.FindPropertyRelative(names[i]), (i + 1).ToString()));
+        }
 
         // Add fields to the container
-        container.Add(item1);
-        container.Add(item2);
-
+        var container = new GenericField<Couple<int, int>>(property.displayName, input, setupCompositeInput: true);
         return container;
     }
+
+    #endregion
+
+    #region IMGUI implementation
 
     /// <summary>
     /// Fallback to the IMGUI version when used within a custom IMGUI editor
@@ -60,4 +62,5 @@ public class CoupleEditor : PropertyDrawer {
 
         EditorGUI.EndProperty();
     }
+    #endregion
 }
