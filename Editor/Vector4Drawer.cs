@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 [CustomPropertyDrawer(typeof(Vector4))]
-public class Vector4Editor : PropertyDrawer {
+public class Vector4Drawer : PropertyDrawer {
 
     #region UI Toolkit implementation
 
