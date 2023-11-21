@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using UnityEngine;
 
 /// <summary>
@@ -9,6 +10,9 @@ public struct Couple<T1, T2> {
     [SerializeField] public T2 Item2;
 
     public Couple(T1 item1 = default, T2 item2 = default) { Item1 = item1; Item2 = item2; }
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public readonly void Deconstruct(out T1 item1, out T2 item2) { item1 = Item1; item2 = Item2; }
 }
 
 /// <summary>

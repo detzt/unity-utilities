@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using UnityEngine;
 
 /// <summary>
@@ -13,6 +14,13 @@ public struct Triple<T1, T2, T3> {
         Item1 = item1;
         Item2 = item2;
         Item3 = item3;
+    }
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public readonly void Deconstruct(out T1 item1, out T2 item2, out T3 item3) {
+        item1 = Item1;
+        item2 = Item2;
+        item3 = Item3;
     }
 }
 
