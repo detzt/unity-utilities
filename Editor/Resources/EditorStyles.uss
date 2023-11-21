@@ -46,3 +46,64 @@
 .optional-value > .unity-base-field > Label {
     display: none;
 }
+
+
+/** Map **/
+
+/* Hide the label of of inner key and value fields */
+.map__key > .generic-field > Label,
+.map__value > .generic-field > Label {
+    display: none;
+}
+
+/* Remove unwanted styles from fake label */
+.map__key {
+    margin: 0;
+    padding: 0;
+}
+
+/* Add gap between key and value */
+.map__key {
+    padding-right: 15px;
+}
+
+/* Style add and remove buttons */
+.map__add-button,
+.map__remove-button {
+    padding: 0 1px;
+    margin: 0;
+    margin-left: auto; /* right align */
+    border-width: 0;
+    background-color: transparent;
+    -unity-font-style: bold;
+    font-size: 18px;
+    width: 15px;
+}
+.map__add-button {
+    height: 16px; /* Same height as foldout header */
+    padding-bottom: 1px; /* Center text vertically */
+}
+.map__remove-button {
+    height: 17px; /* Same visual height as input fields */
+    margin-top: 1px; /* Center button background vertically */
+    padding-bottom: 2px; /* Center text vertically */
+}
+.map__add-button:hover,
+.map__remove-button:hover {
+    background-color: rgb(100, 100, 100);
+}
+
+
+/** AutoSetup **/
+
+/* Same height as regular input fields */
+.auto-setup__info {
+    padding-top: 2px;
+    padding-bottom: 1px;
+}
+
+
+/** Debugging **/
+.hide {
+    display: none;
+}

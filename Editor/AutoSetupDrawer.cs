@@ -15,6 +15,7 @@ public class AutoSetupDrawer : PropertyDrawer {
         // Create property container element
         if(property.propertyType != SerializedPropertyType.ObjectReference) {
             var info = new Label("Use AutoSetup with object reference fields!");
+            info.AddToClassList("auto-setup__info");
             var container = new GenericField<System.Type>(property.displayName, info);
             return container;
         }
@@ -33,7 +34,7 @@ public class AutoSetupDrawer : PropertyDrawer {
             value = property.objectReferenceValue
         };
         objectField.BindProperty(property);
-        objectField.AddToClassList("unity-base-field__aligned");
+        objectField.AddToClassList(BaseField<object>.alignedFieldUssClassName); // (class = "unity-base-field__aligned")
         return objectField;
     }
 

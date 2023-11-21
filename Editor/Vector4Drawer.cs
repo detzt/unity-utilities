@@ -12,7 +12,6 @@ public class Vector4Drawer : PropertyDrawer {
     public override VisualElement CreatePropertyGUI(SerializedProperty property) {
         // Create property container element
         var input = new VisualElement();
-        input.AddToClassList("input-container");
 
         // Create property fields
         var names = new List<string> {
@@ -27,10 +26,10 @@ public class Vector4Drawer : PropertyDrawer {
             item.BindProperty(property.FindPropertyRelative(names[i]));
             item.label = names[i].ToUpper();
 
-            item.RemoveFromClassList("unity-base-field__aligned"); // prevent auto alignment
-            item.AddToClassList("unity-composite-field__field"); // flex-grow: 1, flex-basis: 0
+            item.RemoveFromClassList(BaseField<object>.alignedFieldUssClassName); // prevent auto alignment (class = "unity-base-field__aligned")
+            item.AddToClassList(Vector4Field.fieldUssClassName); // flex-grow: 1, flex-basis: 0 (class = "unity-composite-field__field")
             if(first) {
-                item.AddToClassList("unity-composite-field__field--first"); // no margin-left
+                item.AddToClassList(Vector4Field.firstFieldVariantUssClassName); // no margin-left (class = "unity-composite-field__field--first")
                 first = false;
             }
 
@@ -38,7 +37,7 @@ public class Vector4Drawer : PropertyDrawer {
         }
 
         // Add fields to the container
-        var container = new GenericField<Couple<int, int>>(property.displayName, input);
+        var container = new GenericField<Vector4>(property.displayName, input);
 
         return container;
     }

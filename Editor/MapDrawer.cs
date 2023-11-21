@@ -23,10 +23,11 @@ SOFTWARE.
 */
 
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
 using System.Reflection;
-using System;
+using UnityEditor;
+using UnityEditor.UIElements;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 [CustomPropertyDrawer(typeof(Map<,>))]
 public class MapPropertyDrawer : PropertyDrawer {
@@ -67,6 +68,117 @@ public class MapPropertyDrawer : PropertyDrawer {
         Add,
         Remove
     }
+
+
+    #region UI Toolkit implementation
+
+    public VisualElement CreatePropertyGUI_WIP(SerializedProperty property) {
+        // Create property container element
+        var container = new VisualElement();
+        container.styleSheets.Add(Resources.Load<StyleSheet>("EditorStyles"));
+        container.AddToClassList("map");
+
+        var keyArrayProperty = property.FindPropertyRelative(KeysFieldName);
+        var valueArrayProperty = property.FindPropertyRelative(ValuesFieldName);
+
+        ConflictState conflictState = GetConflictState(property);
+
+        if(conflictState.conflictIndex != -1) {
+            keyArrayProperty.InsertArrayElementAtIndex(conflictState.conflictIndex);
+            var keyProperty = keyArrayProperty.GetArrayElementAtIndex(conflictState.conflictIndex);
+            SetPropertyValue(keyProperty, conflictState.conflictKey);
+            keyProperty.isExpanded = conflictState.conflictKeyPropertyExpanded;
+
+            if(valueArrayProperty != null) {
+                valueArrayProperty.InsertArrayElementAtIndex(conflictState.conflictIndex);
+                var valueProperty = valueArrayProperty.GetArrayElementAtIndex(conflictState.conflictIndex);
+                SetPropertyValue(valueProperty, conflictState.conflictValue);
+                valueProperty.isExpanded = conflictState.conflictValuePropertyExpanded;
+            }
+        }
+
+        // var list = new ListView {
+        //     makeItem = () => {
+        //         // Create property fields
+        //         var keyField = new PropertyField(keyArrayProperty.GetArrayElementAtIndex(0), "");
+        //         var valueField = new PropertyField(valueArrayProperty.GetArrayElementAtIndex(0), "");
+
+        //         // Add fields to the container
+        //         var innerContainer = new GenericField<System.Type>(keyField, valueField, setupCompositeInput: true);
+        //         return innerContainer;
+        //     },
+        //     bindItem = (e, i) => {
+        //         var innerContainer = (GenericField<System.Type>)e;
+        //         var keyField = (PropertyField)innerContainer[2];
+        //         var valueField = (PropertyField)innerContainer[1];
+        //         keyField.Bind(keyArrayProperty.GetArrayElementAtIndex(i).serializedObject);
+        //         valueField.Bind(valueArrayProperty.GetArrayElementAtIndex(i).serializedObject);
+        //     },
+        //     itemsSource = EnumerateEntries(keyArrayProperty, valueArrayProperty).ToList(),
+        // };
+        // container.Add(list);
+
+        var foldout = new Foldout {
+            text = property.displayName
+        };
+        container.Add(foldout);
+
+        var addButton = new Button(() => {
+            AddEntry(property, keyArrayProperty, valueArrayProperty, keyArrayProperty.arraySize);
+            _ = property.serializedObject.ApplyModifiedProperties();
+            foldout.Add(CreateEntryGUI(keyArrayProperty.GetArrayElementAtIndex(keyArrayProperty.arraySize - 1), valueArrayProperty?.GetArrayElementAtIndex(keyArrayProperty.arraySize - 1)));
+            foldout.MarkDirtyRepaint();
+        }) {
+            text = "+"
+        };
+        addButton.AddToClassList("map__add-button");
+        foldout.RegisterCallback<GeometryChangedEvent>(evt => {
+            if(addButton.parent != null) return; // only once
+            var foldoutContainer = foldout.Q(null, Foldout.inputUssClassName); // (class = "unity-foldout__input")
+            foldoutContainer?.Add(addButton);
+        });
+
+        foreach(var item in EnumerateEntries(keyArrayProperty, valueArrayProperty)) {
+            foldout.Add(CreateEntryGUI(item.keyProperty, item.valueProperty));
+        }
+
+        // // Create property fields
+        // var propertyField = new PropertyField(property);
+        // container.Add(propertyField);
+
+        container.RegisterCallback<GeometryChangedEvent>(CompleteSetup);
+        return container;
+    }
+
+    private VisualElement CreateEntryGUI(SerializedProperty keyProperty, SerializedProperty valueProperty) {
+        // Create property fields
+        var keyField = new PropertyField(keyProperty, "");
+        var valueField = new PropertyField(valueProperty, "");
+        keyField.AddToClassList("map__key");
+        valueField.AddToClassList("map__value");
+
+        var removeButton = new Button(() => {
+            Debug.Log("Remove button pressed");
+        }) {
+            text = "-"
+        };
+        removeButton.AddToClassList("map__remove-button");
+
+        // Add fields to the container
+        var innerContainer = new GenericField<System.Type>(keyField, valueField, setupCompositeInput: true);
+        innerContainer.Add(removeButton);
+        return innerContainer;
+    }
+
+    private void CompleteSetup(GeometryChangedEvent evt) {
+        //Debug.Log("CompleteSetup");
+        var container = (VisualElement)evt.target;
+        container.MarkDirtyRepaint();
+    }
+
+    #endregion
+
+    #region IMGUI implementation
 
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
         label = EditorGUI.BeginProperty(position, label, property);
@@ -162,18 +274,7 @@ public class MapPropertyDrawer : PropertyDrawer {
         }
 
         if(buttonAction == Action.Add) {
-            // add new entry
-            keyArrayProperty.InsertArrayElementAtIndex(buttonActionIndex);
-            valueArrayProperty?.InsertArrayElementAtIndex(buttonActionIndex);
-
-            // auto increment key
-            var newEntry = keyArrayProperty.GetArrayElementAtIndex(buttonActionIndex);
-            if(IsIntValue(newEntry.propertyType))
-                newEntry.intValue++;
-
-            // automatically expand upon adding first entry
-            if(buttonActionIndex == 0)
-                property.isExpanded = true;
+            AddEntry(property, keyArrayProperty, valueArrayProperty, buttonActionIndex);
         } else if(buttonAction == Action.Remove) {
             DeleteArrayElementAtIndex(keyArrayProperty, buttonActionIndex);
             if(valueArrayProperty != null)
@@ -250,6 +351,23 @@ public class MapPropertyDrawer : PropertyDrawer {
         return Mathf.Max(keyPropertyHeight, valuePropertyHeight);
     }
 
+    #endregion
+
+    private static void AddEntry(SerializedProperty property, SerializedProperty keyArrayProperty, SerializedProperty valueArrayProperty, int index) {
+        // add new entry
+        keyArrayProperty.InsertArrayElementAtIndex(index);
+        valueArrayProperty?.InsertArrayElementAtIndex(index);
+
+        // auto increment key
+        var newEntry = keyArrayProperty.GetArrayElementAtIndex(index);
+        if(IsIntValue(newEntry.propertyType))
+            newEntry.intValue++;
+
+        // automatically expand upon adding first entry
+        if(index == 0)
+            property.isExpanded = true;
+    }
+
     private static void SaveProperty(SerializedProperty keyProperty, SerializedProperty valueProperty, int index, int otherIndex, ConflictState conflictState) {
         conflictState.conflictKey = GetPropertyValue(keyProperty);
         conflictState.conflictValue = valueProperty != null ? GetPropertyValue(valueProperty) : null;
@@ -320,7 +438,7 @@ public class MapPropertyDrawer : PropertyDrawer {
             { SerializedPropertyType.Bounds, "boundsValue" },
             { SerializedPropertyType.Quaternion, "quaternionValue" },
         };
-        Type serializedPropertyType = typeof(SerializedProperty);
+        System.Type serializedPropertyType = typeof(SerializedProperty);
 
         s_serializedPropertyValueAccessorsDict = new Dictionary<SerializedPropertyType, PropertyInfo>();
         BindingFlags flags = BindingFlags.Instance | BindingFlags.Public;

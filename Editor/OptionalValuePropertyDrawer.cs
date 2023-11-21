@@ -11,7 +11,6 @@ public class OptionalValuePropertyDrawer : PropertyDrawer {
     public override VisualElement CreatePropertyGUI(SerializedProperty property) {
         // Create property container element
         var input = new VisualElement();
-        input.AddToClassList("input-container");
 
         // Create property fields
         var enabledProperty = property.FindPropertyRelative("enabled");
@@ -24,7 +23,7 @@ public class OptionalValuePropertyDrawer : PropertyDrawer {
         // Add fields to the container
         input.Add(enabledField);
         input.Add(valueField);
-        var container = new GenericField<System.Type>(property.displayName, input);
+        var container = new GenericField<OptionalValue<System.Type>>(property.displayName, input);
 
         // Actual functionality of disabling the value field when the enabled field is false
         valueField.SetEnabled(enabledProperty.boolValue);
@@ -51,20 +50,29 @@ public class OptionalValuePropertyDrawer : PropertyDrawer {
         var enabledProperty = property.FindPropertyRelative("enabled");
         var valueProperty = property.FindPropertyRelative("value");
         var guiEnabled = GUI.enabled;
-        var controlRect = position;
         GUI.enabled = enabledProperty.boolValue;
+        var isInsideComposite = position.x >= 120f;
+        var controlRect = position;
         var valueRect = controlRect;
         valueRect.x += 30;
         valueRect.width -= 30;
         var labelWidth = EditorGUIUtility.labelWidth;
-        EditorGUIUtility.labelWidth -= 30;
+        if(isInsideComposite) EditorGUIUtility.labelWidth = 0;
+        else EditorGUIUtility.labelWidth -= 30;
         whiteSpace.tooltip = label.tooltip;
-        _ = EditorGUI.PropertyField(valueRect, valueProperty, whiteSpace);
+        _ = EditorGUI.PropertyField(valueRect, valueProperty, isInsideComposite ? GUIContent.none : whiteSpace);
         EditorGUIUtility.labelWidth = labelWidth;
         GUI.enabled = guiEnabled;
         var boolRect = controlRect;
-        boolRect.width = EditorGUIUtility.labelWidth - 30f;
-        enabledProperty.boolValue = EditorGUI.ToggleLeft(boolRect, property.displayName, enabledProperty.boolValue);
+        if(isInsideComposite) {
+            // Only draw checkbox without label when nested in a composite field
+            boolRect.width = 30f;
+            enabledProperty.boolValue = EditorGUI.Toggle(boolRect, enabledProperty.boolValue);
+        } else {
+            // Draw label with toggle left to it in standalone case
+            boolRect.width = EditorGUIUtility.labelWidth - 30f;
+            enabledProperty.boolValue = EditorGUI.ToggleLeft(boolRect, property.displayName, enabledProperty.boolValue);
+        }
     }
     #endregion
 }
