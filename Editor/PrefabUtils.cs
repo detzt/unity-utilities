@@ -10,9 +10,9 @@ public static class PrefabUtils {
     /// Reverts the local rotation and position if they are identical to its source prefab
     /// </summary>
     /// <param name="transform">The Transform to change</param>
-    public static void RevertIdentityTransforms(Transform transform) {
+    public static void RevertIdenticalTransformOverrides(Transform transform) {
         var reference = PrefabUtility.GetCorrespondingObjectFromSource(transform);
-        if(reference != null) RevertIdentityTransforms(transform, reference.transform);
+        if(reference != null) RevertIdenticalTransformOverrides(transform, reference.transform);
     }
 
     /// <summary>
@@ -20,7 +20,7 @@ public static class PrefabUtils {
     /// </summary>
     /// <param name="transform">The Transform to change</param>
     /// <param name="reference">Reference Transform</param>
-    public static void RevertIdentityTransforms(Transform transform, Transform reference) {
+    public static void RevertIdenticalTransformOverrides(Transform transform, Transform reference) {
         using var so = new SerializedObject(transform);
         Undo.RecordObject(transform, "Revert Identity Transforms");
         PrefabUtility.RecordPrefabInstancePropertyModifications(transform);
@@ -59,5 +59,17 @@ public static class PrefabUtils {
                Mathf.Abs(posDiff.x) < float.Epsilon && so.FindProperty("m_LocalPosition.x").prefabOverride ||
                Mathf.Abs(posDiff.y) < float.Epsilon && so.FindProperty("m_LocalPosition.y").prefabOverride ||
                Mathf.Abs(posDiff.z) < float.Epsilon && so.FindProperty("m_LocalPosition.z").prefabOverride;
+    }
+
+    [MenuItem("CONTEXT/Transform/RevertIdenticalTransformOverrides", false)]
+    private static void RevertIdenticalTransformOverrides(MenuCommand command) {
+        var transform = (Transform)command.context;
+        RevertIdenticalTransformOverrides(transform);
+    }
+
+    [MenuItem("CONTEXT/Transform/RevertIdenticalTransformOverrides", true)]
+    private static bool RevertIdenticalTransformOverridesValidation(MenuCommand command) {
+        var transform = (Transform)command.context;
+        return HasIdenticalTransformOverrides(transform);
     }
 }
