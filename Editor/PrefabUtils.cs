@@ -7,7 +7,7 @@ using UnityEngine;
 public static class PrefabUtils {
 
     /// <summary>
-    /// Reverts the local rotation and position if they are identical to its source prefab
+    /// Reverts the local rotation and local position if they are identical to its source prefab
     /// </summary>
     /// <param name="transform">The Transform to change</param>
     public static void RevertIdenticalTransformOverrides(Transform transform) {
@@ -16,7 +16,7 @@ public static class PrefabUtils {
     }
 
     /// <summary>
-    /// Reverts the local rotation and position if they are identical to the given <paramref name="reference"/> Transform
+    /// Reverts the local rotation and local position if they are identical to the given <paramref name="reference"/> Transform
     /// </summary>
     /// <param name="transform">The Transform to change</param>
     /// <param name="reference">Reference Transform</param>
@@ -25,8 +25,8 @@ public static class PrefabUtils {
         Undo.RecordObject(transform, "Revert Identity Transforms");
         PrefabUtility.RecordPrefabInstancePropertyModifications(transform);
 
-        var posDiff = transform.position - reference.position;
-        if(transform.rotation == reference.rotation) {
+        var posDiff = transform.localPosition - reference.localPosition;
+        if(transform.localRotation == reference.localRotation) {
             PrefabUtility.RevertPropertyOverride(so.FindProperty("m_LocalRotation"), InteractionMode.AutomatedAction);
             PrefabUtility.RevertPropertyOverride(so.FindProperty("m_LocalEulerAnglesHint"), InteractionMode.AutomatedAction);
         }
@@ -56,9 +56,9 @@ public static class PrefabUtils {
     /// <param name="reference">The reference Transform to compare to</param>
     public static bool HasIdenticalTransformOverrides(Transform transform, Transform reference) {
         using var so = new SerializedObject(transform);
-        var posDiff = transform.position - reference.position;
-        return transform.rotation == reference.rotation && so.FindProperty("m_LocalRotation").prefabOverride ||
-            transform.rotation == reference.rotation && so.FindProperty("m_LocalEulerAnglesHint").prefabOverride ||
+        var posDiff = transform.localPosition - reference.localPosition;
+        return transform.localRotation == reference.localRotation && so.FindProperty("m_LocalRotation").prefabOverride ||
+            transform.localRotation == reference.localRotation && so.FindProperty("m_LocalEulerAnglesHint").prefabOverride ||
             Mathf.Abs(posDiff.x) < float.Epsilon && so.FindProperty("m_LocalPosition.x").prefabOverride ||
             Mathf.Abs(posDiff.y) < float.Epsilon && so.FindProperty("m_LocalPosition.y").prefabOverride ||
             Mathf.Abs(posDiff.z) < float.Epsilon && so.FindProperty("m_LocalPosition.z").prefabOverride;
