@@ -74,6 +74,16 @@ public static class VectorExtensions {
     /// Returns the x and y coordinates as <see cref="Vector2">
     /// </summary>
     public static Vector2 XY(this Vector3 v) => new(v.x, v.y);
+
+    /// <summary>
+    /// Returns the x and z coordinates as <see cref="Vector2">
+    /// </summary>
+    public static Vector2 XZ(this Vector3 v) => new(v.x, v.z);
+
+    /// <summary>
+    /// Converts this <see cref="Vector2"/> into a <see cref="Vector3"/> by inserting a 0 in the middle
+    /// </summary>
+    public static Vector3 X0Y(this Vector2 v) => new(v.x, 0f, v.y);
 }
 
 /// <summary>
