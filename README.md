@@ -1,7 +1,7 @@
 # Unity Utilities
 This is a collection of project agnostic utilities and extensions for Unity.
 
-## Serializable Types with Custom Editors
+## Serializable Types with Custom PropertyDrawers
 - `Couple`, `Triple`, `Map`, `MinMax`, and `OptionalValue`
 - `MinMaxSlider` attribute
 
@@ -10,10 +10,10 @@ This is a collection of project agnostic utilities and extensions for Unity.
 
 ## Extensions
 ### Extensions to Unity Vector types:
-- `.With`, `.Add`, and `.Rotate` modifications, e.g. `Vector3 v = Vector3.up.With(y: 25f);`
+- `.With`, `.Add`, and `.Rotate` modifications, e.g. `Vector3 v = transform.forward.With(y: 0f);`
 - Component wise `Mul` and `Div`
 - `SqrDist` semantic shorthand
-- `XY` swizzling
+- `Vector3.XY`, `Vector3.XZ`, and `Vector2.X0Y` swizzling
 
 ### `MathV` static class with component wise analogs of Mathf methods:
 - `Abs`, `Round`, `Max`, `Clamp`, and `Random` that operate on a single vector
@@ -36,7 +36,19 @@ This is a collection of project agnostic utilities and extensions for Unity.
 - `TryGetComponentInParent`
 - `GetComponentsInOnlyChildren`
 - `GetComponentsInOnlyCousins`
+- `SetPositionAndRotation` that takes a `Transform` as parameter.
+
+### Extensions to Prefabs:
+- `RevertIdenticalTransformOverrides` reverts unused overrides to local position and rotation to reduce prefab and scene file size and noise.
+- `HasIdenticalTransformOverrides` returns whether RevertIdenticalTransformOverrides has something to revert.
+
+### Extensions to UI Toolkit:
+- `SetActive` for `VisualElement` that mimics `GameObject.SetActive`.
 
 ## Static `Utils` class with the remaining utilities:
 - `EnumValues` iterator, e.g. `foreach(var value in Utils.EnumValues<SomeEnum>())`
 - `ReturnValueAndLogError` utility for lean switch expressions
+
+## Changes to Editor Styling:
+- `Vector4` field in one line (like `Vector3` and `Quaternion` fields).
+- Prevent clipping of MinMaxSlider Handles at edges by added padding.

@@ -7,18 +7,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2024-02-21
+
+### Added
+- Extensions to Prefabs:
+  - `RevertIdenticalTransformOverrides` reverts unused overrides to local position and rotation to reduce prefab and scene file size and noise.
+  - `HasIdenticalTransformOverrides` returns whether RevertIdenticalTransformOverrides has something to revert.
+- Extensions to UI Toolkit:
+  - `SetActive` for `VisualElement` that mimics `GameObject.SetActive`.
+- Changes to Editor Styling:
+  - `Vector4` field in one line (like `Vector3` and `Quaternion` fields).
+  - Prevent clipping of MinMaxSlider Handles at edges by added padding.
+- Extensions to Unity Objects:
+  - `SetPositionAndRotation` that takes a `Transform` as parameter.
+  - `Vector3.XZ` and `Vector2.X0Y` swizzling.
+
 ## [1.0.0] - 2023-10-09
 
 ### Added
 
-- Serializable `Couple`, `Triple`, `Map`, `MinMax`, and `OptionalValue` types with custom editors
+- Serializable `Couple`, `Triple`, `Map`, `MinMax`, and `OptionalValue` types with custom PropertyDrawers
 - `MinMaxSlider` attribute
 - `AutoSetup` attribute that tries to wire component references automatically
 - Extensions to Unity Vector types:
-  - `.With`, `.Add`, and `.Rotate` modifications, e.g. `Vector3 v = Vector3.up.With(y: 25f);`
+  - `.With`, `.Add`, and `.Rotate` modifications, e.g. `Vector3 v = transform.forward.With(y: 0f);`
   - Component wise `Mul` and `Div`
   - `SqrDist` semantic shorthand
-  - `XY` swizzling
+  - `Vector3.XY` swizzling
 - `MathV` static class with component wise analogs of Mathf methods:
   - `Abs`, `Round`, `Max`, `Clamp`, and `Random` that operate on a single vector
   - `Min` and `Max` that operate on two vectors
