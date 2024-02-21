@@ -1,0 +1,6 @@
+/*** This stylesheet accompanis the UIToolkitExtensions.cs extensions methods to the UI Toolkit ***/
+
+/* Hides the visual element, similar to GameObject.SetActive(false) */
+.hidden {
+    display: none;
+}

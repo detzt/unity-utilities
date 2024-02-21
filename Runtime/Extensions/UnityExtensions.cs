@@ -52,4 +52,9 @@ public static class UnityExtensions {
         }
         return res;
     }
+
+    /// <summary>Sets the world space position and rotation of the transform to the given <paramref name="reference"/>.</summary>
+    public static void SetPositionAndRotation(this Transform self, Transform reference) {
+        self.SetPositionAndRotation(reference.position, reference.rotation);
+    }
 }
