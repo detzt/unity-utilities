@@ -2,6 +2,7 @@
 This is a collection of project agnostic utilities and extensions for Unity.
 
 ## Serializable Types with Custom PropertyDrawers
+They are implemented using PropertyDrawers for these specific types without a general editor that would inject itself everywhere. This makes this compatible and does not interfere with other custom editors.
 - `Couple`, `Triple`, `Map`, `MinMax`, and `OptionalValue`
 - `MinMaxSlider` attribute
 
@@ -44,6 +45,9 @@ This is a collection of project agnostic utilities and extensions for Unity.
 
 ### Extensions to UI Toolkit:
 - `SetActive` for `VisualElement` that mimics `GameObject.SetActive`.
+
+## UI Toolkit Custom Controls
+- `AspectRatioContainer` that maintains a configured aspect ratio.
 
 ## Static `Utils` class with the remaining utilities:
 - `EnumValues` iterator, e.g. `foreach(var value in Utils.EnumValues<SomeEnum>())`
