@@ -18,7 +18,7 @@ public static class MinMaxExtensions {
     public static float Random(this MinMax<float> self) => UnityEngine.Random.Range(self.Min, self.Max);
     public static float MinSqr(this MinMax<float> self) => self.Min * self.Min;
     public static float MaxSqr(this MinMax<float> self) => self.Max * self.Max;
-    /// <summary>Returns true iff the given value is at least as large as the minimum and at most as large as the maximum, inclusive./// </summary>
+    /// <summary>Returns true iff the given value is at least as large as the minimum and at most as large as the maximum, inclusive.</summary>
     public static bool Contains(this MinMax<float> self, float value) => self.Min <= value && value <= self.Max;
     public static bool Contains(this MinMax<float> self, float value, float tolerance) => self.Min - tolerance <= value && value <= self.Max + tolerance;
 

@@ -57,4 +57,48 @@ public static class UnityExtensions {
     public static void SetPositionAndRotation(this Transform self, Transform reference) {
         self.SetPositionAndRotation(reference.position, reference.rotation);
     }
+
+
+    /// <summary>Sets the world space position and rotation of the transform to the given <paramref name="pose"/>.</summary>
+    /// <param name="self">The transform to set the position and rotation of</param>
+    /// <param name="pose">The world space position and rotation to set</param>
+    public static void SetPositionAndRotation(this Transform self, WorldPose pose) {
+        self.SetPositionAndRotation(pose.position, pose.rotation);
+    }
+
+    /// <summary>Sets the local position and local rotation of the transform to the given <paramref name="pose"/>.</summary>
+    /// <param name="self">The transform to set the local position and local rotation of</param>
+    /// <param name="pose">The local position and local rotation to set</param>
+    public static void SetLocalPositionAndRotation(this Transform self, LocalPose pose) {
+        self.SetLocalPositionAndRotation(pose.position, pose.rotation);
+    }
+
+
+    /// <summary>
+    /// Transforms a <see cref="LocalPose"/> (from local to world space).<br/>
+    /// Analogous to Transform.TransformPoint.
+    /// </summary>
+    /// <param name="self">The transform that is used to transform the pose</param>
+    /// <param name="poseToTransform">The pose that gets transformed</param>
+    /// <returns>A new <see cref="WorldPose"/> representing the transformed <paramref name="poseToTransform"/></returns>
+    public static WorldPose TransformPose(this Transform self, LocalPose poseToTransform) {
+        return new WorldPose {
+            position = self.TransformPoint(poseToTransform.position),
+            rotation = self.rotation * poseToTransform.rotation
+        };
+    }
+
+    /// <summary>
+    /// Inverse transforms a <see cref="WorldPose"/> (from world to local space).<br/>
+    /// Analogous to Transform.InverseTransformPoint.
+    /// </summary>
+    /// <param name="self">The transform that is used to transform the pose</param>
+    /// <param name="poseToTransform">The pose that gets transformed</param>
+    /// <returns>A new <see cref="LocalPose"/> representing the inversely transformed <paramref name="poseToTransform"/></returns>
+    public static LocalPose InverseTransformPose(this Transform self, WorldPose poseToTransform) {
+        return new LocalPose {
+            position = self.InverseTransformPoint(poseToTransform.position),
+            rotation = Quaternion.Inverse(self.rotation) * poseToTransform.rotation
+        };
+    }
 }

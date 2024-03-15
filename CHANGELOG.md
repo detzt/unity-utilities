@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2024-03-15
+
+### Added
+
+- WoldPose and LocalPose
+  - Each is a lightweight struct that contains a `position` and a `rotation` field.
+    Similar to Unity's `Transform` but without scale, parent, children, component, and other overhead.
+  - They contain the same data, but are semantically different, as they encode the space in which they are to be interpreted.
+  - Various `TransformXXX` and `InverseTransformXXX` methods are provided to convert objects between spaces.
+  - `WorldPose` and `LocalPose` can be implicitly created from `Transform`.
+    When implicit conversions from other custom types are added, `WorldPose` and `LocalPose` can be used as general purpose parameter that reduce the amount of overloads needed.
+
 ## [1.2.0] - 2024-02-24
 
 ### Added
@@ -62,6 +74,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `EnumValues` iterator, e.g. `foreach(var value in Utils.EnumValues<SomeEnum>())`
   - `ReturnValueAndLogError` utility for lean switch expressions
 
-[unreleased]: https://github.com/detzt/unity-utilities/v1.1.1...HEAD
-[1.0.1]: https://github.com/detzt/unity-utilities/v1.0.0...v1.0.1
+[unreleased]: https://github.com/detzt/unity-utilities/v1.3.0...HEAD
+[1.3.0]: https://github.com/detzt/unity-utilities/v1.2.0...v1.3.0
+[1.2.0]: https://github.com/detzt/unity-utilities/v1.1.0...v1.2.0
+[1.1.0]: https://github.com/detzt/unity-utilities/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/detzt/unity-utilities/tag/v1.0.0

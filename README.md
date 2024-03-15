@@ -49,6 +49,14 @@ They are implemented using PropertyDrawers for these specific types without a ge
 ## UI Toolkit Custom Controls
 - `AspectRatioContainer` that maintains a configured aspect ratio.
 
+## WoldPose and LocalPose
+- Each is a lightweight struct that contains a `position` and a `rotation` field.
+  Similar to Unity's `Transform` but without scale, parent, children, component, and other overhead.
+- They contain the same data, but are semantically different, as they encode the space in which they are to be interpreted.
+- Various `TransformXXX` and `InverseTransformXXX` methods are provided to convert objects between spaces.
+- `WorldPose` and `LocalPose` can be implicitly created from `Transform`.
+  When implicit conversions from other custom types are added, `WorldPose` and `LocalPose` can be used as general purpose parameter that reduce the amount of overloads needed.
+
 ## Static `Utils` class with the remaining utilities:
 - `EnumValues` iterator, e.g. `foreach(var value in Utils.EnumValues<SomeEnum>())`
 - `ReturnValueAndLogError` utility for lean switch expressions
