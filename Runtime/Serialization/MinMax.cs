@@ -8,6 +8,8 @@ public struct MinMax<T> {
     public MinMax(T min = default, T max = default) { Min = min; Max = max; }
     [SerializeField] public T Min;
     [SerializeField] public T Max;
+
+    public readonly override string ToString() => $"({Min} - {Max})";
 }
 
 public static class MinMaxExtensions {

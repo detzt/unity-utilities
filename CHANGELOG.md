@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Custom PropertyDrawer for `Map` is now also applied to subclasses of `Map`.
+- Proper `ToString` for `Couple`, `Triple`, `MinMax`, and `OptionalValue` types.
 
 ## [1.3.0] - 2024-03-15
 

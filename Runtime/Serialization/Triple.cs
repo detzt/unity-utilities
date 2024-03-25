@@ -22,6 +22,8 @@ public struct Triple<T1, T2, T3> {
         item2 = Item2;
         item3 = Item3;
     }
+
+    public readonly override string ToString() => $"({Item1}, {Item2}, {Item3})";
 }
 
 /// <summary>

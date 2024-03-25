@@ -13,6 +13,8 @@ public struct Couple<T1, T2> {
 
     [EditorBrowsable(EditorBrowsableState.Never)]
     public readonly void Deconstruct(out T1 item1, out T2 item2) { item1 = Item1; item2 = Item2; }
+
+    public readonly override string ToString() => $"({Item1}, {Item2})";
 }
 
 /// <summary>
