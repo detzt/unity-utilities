@@ -29,7 +29,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[CustomPropertyDrawer(typeof(Map<,>))]
+[CustomPropertyDrawer(typeof(Map<,>), true)]
 public class MapPropertyDrawer : PropertyDrawer {
     private const string KeysFieldName = "keys";
     private const string ValuesFieldName = "values";
