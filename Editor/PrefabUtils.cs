@@ -29,6 +29,13 @@ public static class PrefabUtils {
         if(transform.localRotation == reference.localRotation) {
             PrefabUtility.RevertPropertyOverride(so.FindProperty("m_LocalRotation"), InteractionMode.AutomatedAction);
             PrefabUtility.RevertPropertyOverride(so.FindProperty("m_LocalEulerAnglesHint"), InteractionMode.AutomatedAction);
+        } else {
+            if(Mathf.Abs(so.FindProperty("m_LocalRotation.x").floatValue - reference.localEulerAngles.x) < float.Epsilon)
+                PrefabUtility.RevertPropertyOverride(so.FindProperty("m_LocalRotation.x"), InteractionMode.AutomatedAction);
+            if(Mathf.Abs(so.FindProperty("m_LocalRotation.y").floatValue - reference.localEulerAngles.y) < float.Epsilon)
+                PrefabUtility.RevertPropertyOverride(so.FindProperty("m_LocalRotation.y"), InteractionMode.AutomatedAction);
+            if(Mathf.Abs(so.FindProperty("m_LocalRotation.z").floatValue - reference.localEulerAngles.z) < float.Epsilon)
+                PrefabUtility.RevertPropertyOverride(so.FindProperty("m_LocalRotation.z"), InteractionMode.AutomatedAction);
         }
         if(Mathf.Abs(posDiff.x) < float.Epsilon)
             PrefabUtility.RevertPropertyOverride(so.FindProperty("m_LocalPosition.x"), InteractionMode.AutomatedAction);
@@ -56,12 +63,30 @@ public static class PrefabUtils {
     /// <param name="reference">The reference Transform to compare to</param>
     public static bool HasIdenticalTransformOverrides(Transform transform, Transform reference) {
         using var so = new SerializedObject(transform);
+
+        // Check position
         var posDiff = transform.localPosition - reference.localPosition;
-        return transform.localRotation == reference.localRotation && so.FindProperty("m_LocalRotation").prefabOverride ||
-            transform.localRotation == reference.localRotation && so.FindProperty("m_LocalEulerAnglesHint").prefabOverride ||
-            Mathf.Abs(posDiff.x) < float.Epsilon && so.FindProperty("m_LocalPosition.x").prefabOverride ||
-            Mathf.Abs(posDiff.y) < float.Epsilon && so.FindProperty("m_LocalPosition.y").prefabOverride ||
-            Mathf.Abs(posDiff.z) < float.Epsilon && so.FindProperty("m_LocalPosition.z").prefabOverride;
+        if(Mathf.Abs(posDiff.x) < float.Epsilon && so.FindProperty("m_LocalPosition.x").prefabOverride ||
+           Mathf.Abs(posDiff.y) < float.Epsilon && so.FindProperty("m_LocalPosition.y").prefabOverride ||
+           Mathf.Abs(posDiff.z) < float.Epsilon && so.FindProperty("m_LocalPosition.z").prefabOverride) {
+            return true;
+        }
+
+        // Check rotation
+        if(so.FindProperty("m_LocalRotation").prefabOverride || so.FindProperty("m_LocalEulerAnglesHint").prefabOverride) {
+            // There are some overrides, check if something can be reverted
+
+            // Check if the rotation is the same
+            if(transform.localRotation == reference.localRotation) return true;
+
+            // Check cases like one of the euler angles is -0
+            if(Mathf.Abs(so.FindProperty("m_LocalRotation.x").floatValue - reference.localEulerAngles.x) < float.Epsilon && so.FindProperty("m_LocalRotation.x").prefabOverride ||
+               Mathf.Abs(so.FindProperty("m_LocalRotation.y").floatValue - reference.localEulerAngles.y) < float.Epsilon && so.FindProperty("m_LocalRotation.y").prefabOverride ||
+               Mathf.Abs(so.FindProperty("m_LocalRotation.z").floatValue - reference.localEulerAngles.z) < float.Epsilon && so.FindProperty("m_LocalRotation.z").prefabOverride) {
+                return true;
+            }
+        }
+        return false;
     }
 
     [MenuItem("CONTEXT/Transform/RevertIdenticalTransformOverrides", false)]
