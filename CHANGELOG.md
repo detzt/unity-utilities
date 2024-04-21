@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.3] - 2024-04-21
+
+- Extended `Array.IsValidIndex` to be usable on all `ICollection` types.
+
 ## [1.3.2] - 2024-04-08
 
 ### Fixed

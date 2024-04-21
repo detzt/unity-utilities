@@ -23,7 +23,7 @@ They are implemented using PropertyDrawers for these specific types without a ge
 - `MinMax` that returns an ordered pair
 
 ### Extensions to C# System types:
-- `Array.IsValidIndex` as guard against ArrayIndexOutOfBounds exceptions
+- `ICollection.IsValidIndex` as guard against ArrayIndexOutOfBounds exceptions
 - `IDictionary.GetOrCreate`
 - `KeyValuePair.Deconstruct`
 
