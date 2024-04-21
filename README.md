@@ -35,6 +35,7 @@ They are implemented using PropertyDrawers for these specific types without a ge
 - `HasComponent`
 - `GetOrAddComponent`
 - `TryGetComponentInParent`
+- `TryGetComponentInChildren`
 - `GetComponentsInOnlyChildren`
 - `GetComponentsInOnlyCousins`
 - `SetPositionAndRotation` that takes a `Transform` as parameter.

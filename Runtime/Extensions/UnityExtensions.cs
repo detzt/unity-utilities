@@ -29,6 +29,18 @@ public static class UnityExtensions {
         return component != null;
     }
 
+    /// <summary>Returns whether a component of type <typeparamref name="T"/> is attached to the GameObject or any of its children.</summary>
+    public static bool TryGetComponentInChildren<T>(this GameObject self, out T component) where T : Component {
+        component = self.GetComponentInChildren<T>();
+        return component != null;
+    }
+
+    /// <summary>Returns whether a component of type <typeparamref name="T"/> is attached to the GameObject or any of its children.</summary>
+    public static bool TryGetComponentInChildren<T>(this Component self, out T component) where T : Component {
+        component = self.GetComponentInChildren<T>();
+        return component != null;
+    }
+
     /// <summary>Gets references to all components of type <typeparamref name="T"/> on any direct children, without itself.</summary>
     public static List<T> GetComponentsInOnlyChildren<T>(this Component self, bool includeInactive = false) where T : Component {
         var res = new List<T>();
