@@ -1,4 +1,4 @@
-/*
+﻿/*
 MIT License
 
 Copyright (c) 2017 Mathieu Le Ber
@@ -387,7 +387,7 @@ public class MapPropertyDrawer : PropertyDrawer {
 
         // auto increment key
         var newEntry = keyArrayProperty.GetArrayElementAtIndex(index);
-        if(IsIntValue(newEntry.propertyType))
+        if(index > 0 && IsIntValue(newEntry.propertyType))
             newEntry.intValue++;
 
         // automatically expand upon adding first entry
