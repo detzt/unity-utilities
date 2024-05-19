@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2017 Mathieu Le Ber
@@ -72,6 +72,8 @@ public class MapPropertyDrawer : PropertyDrawer {
 
     #region UI Toolkit implementation
 
+    private Foldout foldout;
+
     public VisualElement CreatePropertyGUI_WIP(SerializedProperty property) {
         // Create property container element
         var container = new VisualElement();
@@ -118,15 +120,16 @@ public class MapPropertyDrawer : PropertyDrawer {
         // };
         // container.Add(list);
 
-        var foldout = new Foldout {
+        foldout = new Foldout {
             text = property.displayName
         };
+        foldout.AddToClassList("map__foldout");
         container.Add(foldout);
 
         var addButton = new Button(() => {
             AddEntry(property, keyArrayProperty, valueArrayProperty, keyArrayProperty.arraySize);
             _ = property.serializedObject.ApplyModifiedProperties();
-            foldout.Add(CreateEntryGUI(keyArrayProperty.GetArrayElementAtIndex(keyArrayProperty.arraySize - 1), valueArrayProperty?.GetArrayElementAtIndex(keyArrayProperty.arraySize - 1)));
+            foldout.Add(CreateEntryGUI(keyArrayProperty, valueArrayProperty, keyArrayProperty.arraySize - 1));
             foldout.MarkDirtyRepaint();
         }) {
             text = "+"
@@ -138,9 +141,7 @@ public class MapPropertyDrawer : PropertyDrawer {
             foldoutContainer?.Add(addButton);
         });
 
-        foreach(var item in EnumerateEntries(keyArrayProperty, valueArrayProperty)) {
-            foldout.Add(CreateEntryGUI(item.keyProperty, item.valueProperty));
-        }
+        FillFoldout(keyArrayProperty, valueArrayProperty);
 
         // // Create property fields
         // var propertyField = new PropertyField(property);
@@ -150,23 +151,49 @@ public class MapPropertyDrawer : PropertyDrawer {
         return container;
     }
 
-    private VisualElement CreateEntryGUI(SerializedProperty keyProperty, SerializedProperty valueProperty) {
+    /// <summary>
+    /// Repopulates the foldout with entries from the key and value arrays.
+    /// </summary>
+    private void FillFoldout(SerializedProperty keyArrayProperty, SerializedProperty valueArrayProperty) {
+        foldout.Clear();
+        for(int i = 0; i < keyArrayProperty.arraySize; i++) {
+            foldout.Add(CreateEntryGUI(keyArrayProperty, valueArrayProperty, i));
+        }
+    }
+
+    private VisualElement CreateEntryGUI(SerializedProperty keyArrayProperty, SerializedProperty valueArrayProperty, int index) {
+        var keyProperty = keyArrayProperty.GetArrayElementAtIndex(index);
+        var valueProperty = valueArrayProperty?.GetArrayElementAtIndex(index);
+
         // Create property fields
-        var keyField = new PropertyField(keyProperty, "");
-        var valueField = new PropertyField(valueProperty, "");
+        // calling new PropertyField(keyProperty, "") does not work when adding to the foldout later
+        var keyField = new PropertyField();
+        keyField.BindProperty(keyProperty);
+        keyField.label = "";
+        var valueField = new PropertyField();
+        valueField.BindProperty(valueProperty);
+        valueField.label = "";
         keyField.AddToClassList("map__key");
         valueField.AddToClassList("map__value");
 
+        // Add fields to the container
+        var innerContainer = new GenericField<System.Type>(keyField, valueField, setupCompositeInput: true);
+
+        // Remove button
         var removeButton = new Button(() => {
-            Debug.Log("Remove button pressed");
+            var currentIndex = innerContainer.parent.IndexOf(innerContainer);
+            DeleteArrayElementAtIndex(keyArrayProperty, currentIndex);
+            if(valueArrayProperty != null)
+                DeleteArrayElementAtIndex(valueArrayProperty, currentIndex);
+            _ = keyArrayProperty.serializedObject.ApplyModifiedProperties();
+            //innerContainer.RemoveFromHierarchy();
+            FillFoldout(keyArrayProperty, valueArrayProperty);
         }) {
             text = "-"
         };
         removeButton.AddToClassList("map__remove-button");
-
-        // Add fields to the container
-        var innerContainer = new GenericField<System.Type>(keyField, valueField, setupCompositeInput: true);
         innerContainer.Add(removeButton);
+
         return innerContainer;
     }
 

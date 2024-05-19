@@ -21,8 +21,16 @@ public class GenericField<TValueType> : BaseField<TValueType> {
 
         if(setupCompositeInput) {
 #if UNITY_2023_2_OR_NEWER
-            input.RegisterCallbackOnce<GeometryChangedEvent>(evt => {
-                SetupClassListForCompositeInput(input);
+            RegisterCallbackOnce<GeometryChangedEvent>(evt => {
+                // In some cases the input field is not yet fully initialized upon the first GeometryChangedEvent.
+                if(input.childCount > 0) {
+                    SetupClassListForCompositeInput(input);
+                } else {
+                    // and a second GeometryChangedEvent has to be awaited.
+                    RegisterCallbackOnce<GeometryChangedEvent>(_ => {
+                        SetupClassListForCompositeInput(input);
+                    });
+                }
             });
 #else
             // for older versions, the callback is needlessly called on every layout change

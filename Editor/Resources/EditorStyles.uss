@@ -67,6 +67,13 @@
     padding-right: 15px;
 }
 
+/* Indent foldout header */
+.map__foldout > .unity-foldout__toggle {
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+}
+
 /* Style add and remove buttons */
 .map__add-button,
 .map__remove-button {
@@ -82,6 +89,7 @@
 .map__add-button {
     height: 16px; /* Same height as foldout header */
     padding-bottom: 1px; /* Center text vertically */
+    margin-right: -2px; /* Align with remove buttons */
 }
 .map__remove-button {
     height: 17px; /* Same visual height as input fields */
