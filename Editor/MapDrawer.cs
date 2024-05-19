@@ -34,34 +34,34 @@ public class MapPropertyDrawer : PropertyDrawer {
     private const string KeysFieldName = "keys";
     private const string ValuesFieldName = "values";
     protected const float IndentWidth = 15f;
-    private static readonly GUIContent s_iconPlus = IconContent("Toolbar Plus", "Add entry");
-    private static readonly GUIContent s_iconMinus = IconContent("Toolbar Minus", "Remove entry");
-    private static readonly GUIContent s_warningIconConflict = IconContent("console.warnicon.sml", "Conflicting key, this entry will be lost");
-    private static readonly GUIContent s_warningIconOther = IconContent("console.infoicon.sml", "Conflicting key");
-    private static readonly GUIContent s_warningIconNull = IconContent("console.warnicon.sml", "Null key, this entry will be lost");
-    private static readonly GUIStyle s_buttonStyle = GUIStyle.none;
+    private static readonly GUIContent IconPlus = IconContent("Toolbar Plus", "Add entry");
+    private static readonly GUIContent IconMinus = IconContent("Toolbar Minus", "Remove entry");
+    private static readonly GUIContent WarningIconConflict = IconContent("console.warnicon.sml", "Conflicting key, this entry will be lost");
+    private static readonly GUIContent WarningIconOther = IconContent("console.infoicon.sml", "Conflicting key");
+    private static readonly GUIContent WarningIconNull = IconContent("console.warnicon.sml", "Null key, this entry will be lost");
+    private static readonly GUIStyle ButtonStyle = GUIStyle.none;
 
     private class ConflictState {
-        public object conflictKey = null;
-        public object conflictValue = null;
-        public int conflictIndex = -1;
-        public int conflictOtherIndex = -1;
-        public bool conflictKeyPropertyExpanded = false;
-        public bool conflictValuePropertyExpanded = false;
-        public float conflictLineHeight = 0f;
+        public object ConflictKey = null;
+        public object ConflictValue = null;
+        public int ConflictIndex = -1;
+        public int ConflictOtherIndex = -1;
+        public bool ConflictKeyPropertyExpanded = false;
+        public bool ConflictValuePropertyExpanded = false;
+        public float ConflictLineHeight = 0f;
     }
 
     private struct PropertyIdentity {
-        public UnityEngine.Object instance;
-        public string propertyPath;
+        public Object Instance; // UnityEngine.Object
+        public string PropertyPath;
 
         public PropertyIdentity(SerializedProperty property) {
-            instance = property.serializedObject.targetObject;
-            propertyPath = property.propertyPath;
+            Instance = property.serializedObject.targetObject;
+            PropertyPath = property.propertyPath;
         }
     }
 
-    private static readonly Dictionary<PropertyIdentity, ConflictState> s_conflictStateDict = new();
+    private static readonly Dictionary<PropertyIdentity, ConflictState> ConflictStateDict = new();
 
     private enum Action {
         None,
@@ -85,17 +85,17 @@ public class MapPropertyDrawer : PropertyDrawer {
 
         ConflictState conflictState = GetConflictState(property);
 
-        if(conflictState.conflictIndex != -1) {
-            keyArrayProperty.InsertArrayElementAtIndex(conflictState.conflictIndex);
-            var keyProperty = keyArrayProperty.GetArrayElementAtIndex(conflictState.conflictIndex);
-            SetPropertyValue(keyProperty, conflictState.conflictKey);
-            keyProperty.isExpanded = conflictState.conflictKeyPropertyExpanded;
+        if(conflictState.ConflictIndex != -1) {
+            keyArrayProperty.InsertArrayElementAtIndex(conflictState.ConflictIndex);
+            var keyProperty = keyArrayProperty.GetArrayElementAtIndex(conflictState.ConflictIndex);
+            SetPropertyValue(keyProperty, conflictState.ConflictKey);
+            keyProperty.isExpanded = conflictState.ConflictKeyPropertyExpanded;
 
             if(valueArrayProperty != null) {
-                valueArrayProperty.InsertArrayElementAtIndex(conflictState.conflictIndex);
-                var valueProperty = valueArrayProperty.GetArrayElementAtIndex(conflictState.conflictIndex);
-                SetPropertyValue(valueProperty, conflictState.conflictValue);
-                valueProperty.isExpanded = conflictState.conflictValuePropertyExpanded;
+                valueArrayProperty.InsertArrayElementAtIndex(conflictState.ConflictIndex);
+                var valueProperty = valueArrayProperty.GetArrayElementAtIndex(conflictState.ConflictIndex);
+                SetPropertyValue(valueProperty, conflictState.ConflictValue);
+                valueProperty.isExpanded = conflictState.ConflictValuePropertyExpanded;
             }
         }
 
@@ -218,25 +218,25 @@ public class MapPropertyDrawer : PropertyDrawer {
 
         ConflictState conflictState = GetConflictState(property);
 
-        if(conflictState.conflictIndex != -1) {
-            keyArrayProperty.InsertArrayElementAtIndex(conflictState.conflictIndex);
-            var keyProperty = keyArrayProperty.GetArrayElementAtIndex(conflictState.conflictIndex);
-            SetPropertyValue(keyProperty, conflictState.conflictKey);
-            keyProperty.isExpanded = conflictState.conflictKeyPropertyExpanded;
+        if(conflictState.ConflictIndex != -1) {
+            keyArrayProperty.InsertArrayElementAtIndex(conflictState.ConflictIndex);
+            var keyProperty = keyArrayProperty.GetArrayElementAtIndex(conflictState.ConflictIndex);
+            SetPropertyValue(keyProperty, conflictState.ConflictKey);
+            keyProperty.isExpanded = conflictState.ConflictKeyPropertyExpanded;
 
             if(valueArrayProperty != null) {
-                valueArrayProperty.InsertArrayElementAtIndex(conflictState.conflictIndex);
-                var valueProperty = valueArrayProperty.GetArrayElementAtIndex(conflictState.conflictIndex);
-                SetPropertyValue(valueProperty, conflictState.conflictValue);
-                valueProperty.isExpanded = conflictState.conflictValuePropertyExpanded;
+                valueArrayProperty.InsertArrayElementAtIndex(conflictState.ConflictIndex);
+                var valueProperty = valueArrayProperty.GetArrayElementAtIndex(conflictState.ConflictIndex);
+                SetPropertyValue(valueProperty, conflictState.ConflictValue);
+                valueProperty.isExpanded = conflictState.ConflictValuePropertyExpanded;
             }
         }
 
-        var buttonWidth = s_buttonStyle.CalcSize(s_iconPlus).x;
+        var buttonWidth = ButtonStyle.CalcSize(IconPlus).x;
 
         var labelPosition = position;
         labelPosition.height = EditorGUIUtility.singleLineHeight;
-        labelPosition.xMax -= s_buttonStyle.CalcSize(s_iconPlus).x;
+        labelPosition.xMax -= ButtonStyle.CalcSize(IconPlus).x;
 
         _ = EditorGUI.PropertyField(labelPosition, property, label, false);
         // property.isExpanded = EditorGUI.Foldout(labelPosition, property.isExpanded, label);
@@ -244,8 +244,8 @@ public class MapPropertyDrawer : PropertyDrawer {
             var buttonPosition = position;
             buttonPosition.xMin = buttonPosition.xMax - buttonWidth;
             buttonPosition.height = EditorGUIUtility.singleLineHeight;
-            EditorGUI.BeginDisabledGroup(conflictState.conflictIndex != -1);
-            if(GUI.Button(buttonPosition, s_iconPlus, s_buttonStyle)) {
+            EditorGUI.BeginDisabledGroup(conflictState.ConflictIndex != -1);
+            if(GUI.Button(buttonPosition, IconPlus, ButtonStyle)) {
                 buttonAction = Action.Add;
                 buttonActionIndex = keyArrayProperty.arraySize;
             }
@@ -257,32 +257,32 @@ public class MapPropertyDrawer : PropertyDrawer {
             linePosition.xMax -= buttonWidth;
 
             foreach(var entry in EnumerateEntries(keyArrayProperty, valueArrayProperty)) {
-                var keyProperty = entry.keyProperty;
-                var valueProperty = entry.valueProperty;
-                int i = entry.index;
+                var keyProperty = entry.KeyProperty;
+                var valueProperty = entry.ValueProperty;
+                int i = entry.Index;
 
                 float lineHeight = DrawKeyValueLine(keyProperty, valueProperty, linePosition);
 
                 buttonPosition = linePosition;
                 buttonPosition.x = linePosition.xMax;
                 buttonPosition.height = EditorGUIUtility.singleLineHeight;
-                if(GUI.Button(buttonPosition, s_iconMinus, s_buttonStyle)) {
+                if(GUI.Button(buttonPosition, IconMinus, ButtonStyle)) {
                     buttonAction = Action.Remove;
                     buttonActionIndex = i;
                 }
 
-                if(i == conflictState.conflictIndex && conflictState.conflictOtherIndex == -1) {
+                if(i == conflictState.ConflictIndex && conflictState.ConflictOtherIndex == -1) {
                     var iconPosition = linePosition;
-                    iconPosition.size = s_buttonStyle.CalcSize(s_warningIconNull);
-                    GUI.Label(iconPosition, s_warningIconNull);
-                } else if(i == conflictState.conflictIndex) {
+                    iconPosition.size = ButtonStyle.CalcSize(WarningIconNull);
+                    GUI.Label(iconPosition, WarningIconNull);
+                } else if(i == conflictState.ConflictIndex) {
                     var iconPosition = linePosition;
-                    iconPosition.size = s_buttonStyle.CalcSize(s_warningIconConflict);
-                    GUI.Label(iconPosition, s_warningIconConflict);
-                } else if(i == conflictState.conflictOtherIndex) {
+                    iconPosition.size = ButtonStyle.CalcSize(WarningIconConflict);
+                    GUI.Label(iconPosition, WarningIconConflict);
+                } else if(i == conflictState.ConflictOtherIndex) {
                     var iconPosition = linePosition;
-                    iconPosition.size = s_buttonStyle.CalcSize(s_warningIconOther);
-                    GUI.Label(iconPosition, s_warningIconOther);
+                    iconPosition.size = ButtonStyle.CalcSize(WarningIconOther);
+                    GUI.Label(iconPosition, WarningIconOther);
                 }
 
 
@@ -294,7 +294,7 @@ public class MapPropertyDrawer : PropertyDrawer {
             var buttonPosition = position;
             buttonPosition.xMin = buttonPosition.xMax - buttonWidth;
             buttonPosition.height = EditorGUIUtility.singleLineHeight;
-            if(GUI.Button(buttonPosition, s_iconPlus, s_buttonStyle)) {
+            if(GUI.Button(buttonPosition, IconPlus, ButtonStyle)) {
                 buttonAction = Action.Add;
                 buttonActionIndex = keyArrayProperty.arraySize;
             }
@@ -308,21 +308,21 @@ public class MapPropertyDrawer : PropertyDrawer {
                 DeleteArrayElementAtIndex(valueArrayProperty, buttonActionIndex);
         }
 
-        conflictState.conflictKey = null;
-        conflictState.conflictValue = null;
-        conflictState.conflictIndex = -1;
-        conflictState.conflictOtherIndex = -1;
-        conflictState.conflictLineHeight = 0f;
-        conflictState.conflictKeyPropertyExpanded = false;
-        conflictState.conflictValuePropertyExpanded = false;
+        conflictState.ConflictKey = null;
+        conflictState.ConflictValue = null;
+        conflictState.ConflictIndex = -1;
+        conflictState.ConflictOtherIndex = -1;
+        conflictState.ConflictLineHeight = 0f;
+        conflictState.ConflictKeyPropertyExpanded = false;
+        conflictState.ConflictValuePropertyExpanded = false;
 
         foreach(var entry1 in EnumerateEntries(keyArrayProperty, valueArrayProperty)) {
-            var keyProperty1 = entry1.keyProperty;
-            int i = entry1.index;
+            var keyProperty1 = entry1.KeyProperty;
+            int i = entry1.Index;
             object keyProperty1Value = GetPropertyValue(keyProperty1);
 
             if(keyProperty1Value == null) {
-                var valueProperty1 = entry1.valueProperty;
+                var valueProperty1 = entry1.ValueProperty;
                 SaveProperty(keyProperty1, valueProperty1, i, -1, conflictState);
                 DeleteArrayElementAtIndex(keyArrayProperty, i);
                 if(valueArrayProperty != null)
@@ -333,12 +333,12 @@ public class MapPropertyDrawer : PropertyDrawer {
 
 
             foreach(var entry2 in EnumerateEntries(keyArrayProperty, valueArrayProperty, i + 1)) {
-                var keyProperty2 = entry2.keyProperty;
-                int j = entry2.index;
+                var keyProperty2 = entry2.KeyProperty;
+                int j = entry2.Index;
                 object keyProperty2Value = GetPropertyValue(keyProperty2);
 
                 if(ComparePropertyValues(keyProperty1Value, keyProperty2Value)) {
-                    var valueProperty2 = entry2.valueProperty;
+                    var valueProperty2 = entry2.ValueProperty;
                     SaveProperty(keyProperty2, valueProperty2, j, i, conflictState);
                     DeleteArrayElementAtIndex(keyArrayProperty, j);
                     if(valueArrayProperty != null)
@@ -396,16 +396,16 @@ public class MapPropertyDrawer : PropertyDrawer {
     }
 
     private static void SaveProperty(SerializedProperty keyProperty, SerializedProperty valueProperty, int index, int otherIndex, ConflictState conflictState) {
-        conflictState.conflictKey = GetPropertyValue(keyProperty);
-        conflictState.conflictValue = valueProperty != null ? GetPropertyValue(valueProperty) : null;
+        conflictState.ConflictKey = GetPropertyValue(keyProperty);
+        conflictState.ConflictValue = valueProperty != null ? GetPropertyValue(valueProperty) : null;
         float keyPropertyHeight = EditorGUI.GetPropertyHeight(keyProperty);
         float valuePropertyHeight = valueProperty != null ? EditorGUI.GetPropertyHeight(valueProperty) : 0f;
         float lineHeight = Mathf.Max(keyPropertyHeight, valuePropertyHeight);
-        conflictState.conflictLineHeight = lineHeight;
-        conflictState.conflictIndex = index;
-        conflictState.conflictOtherIndex = otherIndex;
-        conflictState.conflictKeyPropertyExpanded = keyProperty.isExpanded;
-        conflictState.conflictValuePropertyExpanded = valueProperty != null && valueProperty.isExpanded;
+        conflictState.ConflictLineHeight = lineHeight;
+        conflictState.ConflictIndex = index;
+        conflictState.ConflictOtherIndex = otherIndex;
+        conflictState.ConflictKeyPropertyExpanded = keyProperty.isExpanded;
+        conflictState.ConflictValuePropertyExpanded = valueProperty != null && valueProperty.isExpanded;
     }
 
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label) {
@@ -416,8 +416,8 @@ public class MapPropertyDrawer : PropertyDrawer {
             var valuesProperty = property.FindPropertyRelative(ValuesFieldName);
 
             foreach(var entry in EnumerateEntries(keysProperty, valuesProperty)) {
-                var keyProperty = entry.keyProperty;
-                var valueProperty = entry.valueProperty;
+                var keyProperty = entry.KeyProperty;
+                var valueProperty = entry.ValueProperty;
                 float keyPropertyHeight = EditorGUI.GetPropertyHeight(keyProperty);
                 float valuePropertyHeight = valueProperty != null ? EditorGUI.GetPropertyHeight(valueProperty) : 0f;
                 float lineHeight = Mathf.Max(keyPropertyHeight, valuePropertyHeight);
@@ -426,8 +426,8 @@ public class MapPropertyDrawer : PropertyDrawer {
 
             ConflictState conflictState = GetConflictState(property);
 
-            if(conflictState.conflictIndex != -1) {
-                propertyHeight += conflictState.conflictLineHeight;
+            if(conflictState.ConflictIndex != -1) {
+                propertyHeight += conflictState.ConflictLineHeight;
             }
         }
 
@@ -436,14 +436,14 @@ public class MapPropertyDrawer : PropertyDrawer {
 
     private static ConflictState GetConflictState(SerializedProperty property) {
         PropertyIdentity propId = new(property);
-        if(!s_conflictStateDict.TryGetValue(propId, out ConflictState conflictState)) {
+        if(!ConflictStateDict.TryGetValue(propId, out ConflictState conflictState)) {
             conflictState = new ConflictState();
-            s_conflictStateDict.Add(propId, conflictState);
+            ConflictStateDict.Add(propId, conflictState);
         }
         return conflictState;
     }
 
-    private static readonly Dictionary<SerializedPropertyType, PropertyInfo> s_serializedPropertyValueAccessorsDict;
+    private static readonly Dictionary<SerializedPropertyType, PropertyInfo> SerializedPropertyValueAccessorsDict;
 
     static MapPropertyDrawer() {
         Dictionary<SerializedPropertyType, string> serializedPropertyValueAccessorsNameDict = new() {
@@ -467,12 +467,12 @@ public class MapPropertyDrawer : PropertyDrawer {
         };
         System.Type serializedPropertyType = typeof(SerializedProperty);
 
-        s_serializedPropertyValueAccessorsDict = new Dictionary<SerializedPropertyType, PropertyInfo>();
+        SerializedPropertyValueAccessorsDict = new Dictionary<SerializedPropertyType, PropertyInfo>();
         BindingFlags flags = BindingFlags.Instance | BindingFlags.Public;
 
         foreach(var kvp in serializedPropertyValueAccessorsNameDict) {
             PropertyInfo propertyInfo = serializedPropertyType.GetProperty(kvp.Value, flags);
-            s_serializedPropertyValueAccessorsDict.Add(kvp.Key, propertyInfo);
+            SerializedPropertyValueAccessorsDict.Add(kvp.Key, propertyInfo);
         }
     }
 
@@ -498,13 +498,13 @@ public class MapPropertyDrawer : PropertyDrawer {
     }
 
     public static object GetPropertyValue(SerializedProperty p) {
-        return s_serializedPropertyValueAccessorsDict.TryGetValue(p.propertyType, out PropertyInfo propertyInfo) ?
+        return SerializedPropertyValueAccessorsDict.TryGetValue(p.propertyType, out PropertyInfo propertyInfo) ?
             propertyInfo.GetValue(p, null) :
             p.isArray ? GetPropertyValueArray(p) : GetPropertyValueGeneric(p);
     }
 
     private static void SetPropertyValue(SerializedProperty p, object v) {
-        if(s_serializedPropertyValueAccessorsDict.TryGetValue(p.propertyType, out PropertyInfo propertyInfo)) {
+        if(SerializedPropertyValueAccessorsDict.TryGetValue(p.propertyType, out PropertyInfo propertyInfo)) {
             propertyInfo.SetValue(p, v, null);
         } else {
             if(p.isArray)
@@ -583,14 +583,14 @@ public class MapPropertyDrawer : PropertyDrawer {
     }
 
     private struct EnumerationEntry {
-        public SerializedProperty keyProperty;
-        public SerializedProperty valueProperty;
-        public int index;
+        public SerializedProperty KeyProperty;
+        public SerializedProperty ValueProperty;
+        public int Index;
 
         public EnumerationEntry(SerializedProperty keyProperty, SerializedProperty valueProperty, int index) {
-            this.keyProperty = keyProperty;
-            this.valueProperty = valueProperty;
-            this.index = index;
+            KeyProperty = keyProperty;
+            ValueProperty = valueProperty;
+            Index = index;
         }
     }
 
