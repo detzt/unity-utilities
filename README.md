@@ -44,6 +44,9 @@ They are implemented using PropertyDrawers for these specific types without a ge
 - `RevertIdenticalTransformOverrides` reverts unused overrides to local position and rotation to reduce prefab and scene file size and noise.
 - `HasIdenticalTransformOverrides` returns whether RevertIdenticalTransformOverrides has something to revert.
 
+### Extensions to the Input System:
+- `InputActionMap.SetEnabled` that calls `Enable` or `Disable` depending on the parameter.
+
 ### Extensions to UI Toolkit:
 - `SetActive` for `VisualElement` that mimics `GameObject.SetActive`.
 

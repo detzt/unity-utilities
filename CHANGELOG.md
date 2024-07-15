@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.0] - 2024-07-15
+
+### Added
+- `InputActionMap.SetEnabled` that calls `Enable` or `Disable` depending on the parameter.
+
 ## [1.4.0] - 2024-04-21
 
 ### Added
