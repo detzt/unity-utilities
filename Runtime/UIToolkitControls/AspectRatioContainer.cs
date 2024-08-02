@@ -15,18 +15,15 @@ public partial class AspectRatioContainer : VisualElement {
     public float RatioHeight { get; private set; } = 9f;
 
     public AspectRatioContainer() {
-        RegisterCallback<GeometryChangedEvent>(OnGeometryChangedEvent);
-        RegisterCallback<AttachToPanelEvent>(OnAttachToPanelEvent);
     }
 
-    /// <summary>Update the padding when the geometry changes.</summary>
-    private void OnGeometryChangedEvent(GeometryChangedEvent e) {
-        UpdateElements();
-    }
-
-    /// <summary>Update the padding when the element is attached to a panel</summary>
-    private void OnAttachToPanelEvent(AttachToPanelEvent e) {
-        UpdateElements();
+    [EventInterest(typeof(AttachToPanelEvent), typeof(GeometryChangedEvent))]
+    protected override void HandleEventBubbleUp(EventBase evt) {
+        base.HandleEventBubbleUp(evt);
+        if(evt.eventTypeId == AttachToPanelEvent.TypeId() || evt.eventTypeId == GeometryChangedEvent.TypeId()) {
+            // Update the padding when the element is attached to a panel or the geometry changes.
+            UpdateElements();
+        }
     }
 
     /// <summary>
