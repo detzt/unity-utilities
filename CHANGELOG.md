@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.1] - 2024-08-14
+
+### Fixed
+- Removed `AspectRatioContainer` for Unity versions below 2023.2, because the current implementation uses features that are not available in older versions.
+
 ## [1.5.0] - 2024-07-15
 
 ### Added

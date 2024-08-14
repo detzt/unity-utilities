@@ -1,3 +1,5 @@
+#if UNITY_2023_2_OR_NEWER
+
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -63,3 +65,4 @@ public partial class AspectRatioContainer : VisualElement {
         }
     }
 }
+#endif
