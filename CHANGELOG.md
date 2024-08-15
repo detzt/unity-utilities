@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.0] - 2024-08-15
+
+### Added
+- `InterfaceReference<T>` allows serializing objects that implement an interface.
+
 ## [1.5.1] - 2024-08-14
 
 ### Fixed

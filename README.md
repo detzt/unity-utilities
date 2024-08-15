@@ -3,8 +3,12 @@ This is a collection of project agnostic utilities and extensions for Unity.
 
 ## Serializable Types with Custom PropertyDrawers
 They are implemented using PropertyDrawers for these specific types without a general editor that would inject itself everywhere. This makes this compatible and does not interfere with other custom editors.
-- `Couple`, `Triple`, `Map`, `MinMax`, and `OptionalValue`
-- `MinMaxSlider` attribute
+- `Couple<T1, T2>` and `Triple<T1, T2, T3>` tuples
+- `Map<TKey, TValue>` dictionary
+- `MinMax<T>` range
+- `MinMaxSlider` attribute to draw `MinMax` as a slider
+- `OptionalValue<T>` boolean enabled toggle wrapped around a value
+- `InterfaceReference<T>` allows serializing objects that implement an interface
 
 ## Attributes
 - `AutoSetup` attribute that tries to wire component references automatically
