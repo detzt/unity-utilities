@@ -43,8 +43,10 @@ public static class VectorExtensions {
     }
 
     /// <summary>
-    /// Returns the the given vector <paramref name="v"/> rotated by the given amount of <paramref name="degrees"/>
+    /// Returns the the given vector <paramref name="v"/> rotated by the given amount in <paramref name="degrees"/>
     /// </summary>
+    /// <param name="v">The vector to rotate</param>
+    /// <param name="degrees">The amount in degrees to rotate</param>
     public static Vector2 Rotate(this Vector2 v, float degrees) {
         float sin = Mathf.Sin(degrees * Mathf.Deg2Rad);
         float cos = Mathf.Cos(degrees * Mathf.Deg2Rad);
@@ -56,6 +58,13 @@ public static class VectorExtensions {
         return v;
     }
 
+    /// <summary>
+    /// Calculates the component-wise division of this vector by the given vector.<br/>
+    /// If the division would result in NaN, the component is set to 0.<br/>
+    /// Then returns a new vector without modifying the original.
+    /// </summary>
+    /// <param name="a">The nominator</param>
+    /// <param name="b">The denominator</param>
     public static Vector3 Div(this Vector3 a, Vector3 b) {
         var res = new Vector3(a.x / b.x, a.y / b.y, a.z / b.z);
         if(float.IsNaN(res.x)) res.x = 0f;
@@ -63,6 +72,13 @@ public static class VectorExtensions {
         if(float.IsNaN(res.z)) res.z = 0f;
         return res;
     }
+
+    /// <summary>
+    /// Calculates the component-wise multiplication of this vector by the given vector.<br/>
+    /// Then returns a new vector without modifying the original.
+    /// </summary>
+    /// <param name="a">The first factor</param>
+    /// <param name="b">The second factor</param>
     public static Vector3 Mul(this Vector3 a, Vector3 b) => new(a.x * b.x, a.y * b.y, a.z * b.z);
 
     /// <summary>
@@ -93,20 +109,27 @@ public static class MathV {
 
     /* Operators that are applied to every component */
 
+    /// <summary>For each component, takes the absolute value value and returns it as a new vector</summary>
     public static Vector3 Abs(Vector3 v) => new(Mathf.Abs(v.x), Mathf.Abs(v.y), Mathf.Abs(v.z));
 
+    /// <summary>Rounds each component to the nearest integer and returns it as a new vector</summary>
     public static Vector3 Round(Vector3 v) => new(Mathf.Round(v.x), Mathf.Round(v.y), Mathf.Round(v.z));
 
+    /// <summary>Returns the component-wise minimum of the two vectors.</summary>
     public static Vector3 Min(Vector3 a, Vector3 b) => new(Mathf.Min(a.x, b.x), Mathf.Min(a.y, b.y), Mathf.Min(a.z, b.z));
 
+    /// <summary>Returns the component-wise maximum of the two vectors.</summary>
     public static Vector3 Max(Vector3 a, Vector3 b) => new(Mathf.Max(a.x, b.x), Mathf.Max(a.y, b.y), Mathf.Max(a.z, b.z));
 
+    /// <summary>Returns the component-wise maximum of the vector and the given float.</summary>
     public static Vector3 Max(Vector3 a, float b) => new(Mathf.Max(a.x, b), Mathf.Max(a.y, b), Mathf.Max(a.z, b));
 
     [PublicAPI]
+    /// <summary>Returns the component-wise clamped value of <paramref name="v"/> between <paramref name="min"/> and <paramref name="max"/>.</summary>
     public static Vector3 Clamp(Vector3 v, Vector3 min, Vector3 max) => new(Mathf.Clamp(v.x, min.x, max.x), Mathf.Clamp(v.y, min.y, max.y), Mathf.Clamp(v.z, min.z, max.z));
 
     [PublicAPI]
+    /// <summary>Returns a random vector with components between 0 and the given range (both inclusive).</summary>
     public static Vector3 Random(Vector3 range) => new(UnityEngine.Random.Range(0f, range.x), UnityEngine.Random.Range(0f, range.y), UnityEngine.Random.Range(0f, range.z));
 
 
