@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.1] - 2025-04-13
+
+### Added
+- `MathV.Round` overload with a configurable step size between the valid values.
+
 ## [1.6.0] - 2024-08-15
 
 ### Added

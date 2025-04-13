@@ -109,11 +109,16 @@ public static class MathV {
 
     /* Operators that are applied to every component */
 
-    /// <summary>For each component, takes the absolute value value and returns it as a new vector</summary>
+    /// <summary>For each component, takes the absolute value value and returns it as a new vector.</summary>
     public static Vector3 Abs(Vector3 v) => new(Mathf.Abs(v.x), Mathf.Abs(v.y), Mathf.Abs(v.z));
 
-    /// <summary>Rounds each component to the nearest integer and returns it as a new vector</summary>
+    /// <summary>Rounds each component to the nearest integer and returns it as a new vector.</summary>
     public static Vector3 Round(Vector3 v) => new(Mathf.Round(v.x), Mathf.Round(v.y), Mathf.Round(v.z));
+
+    /// <summary>Rounds each component to the nearest multiple of the given step size and returns it as a new vector.</summary>
+    /// <param name="v">The vector to round</param>
+    /// <param name="step">The step size defines the interval between two possible rounded values.</param>
+    public static Vector3 Round(Vector3 v, float step) => new(Mathf.Round(v.x / step) * step, Mathf.Round(v.y / step) * step, Mathf.Round(v.z / step) * step);
 
     /// <summary>Returns the component-wise minimum of the two vectors.</summary>
     public static Vector3 Min(Vector3 a, Vector3 b) => new(Mathf.Min(a.x, b.x), Mathf.Min(a.y, b.y), Mathf.Min(a.z, b.z));
