@@ -115,14 +115,11 @@ public static class MathV {
     /// <summary>Rounds each component to the nearest integer and returns it as a new vector.</summary>
     public static Vector3 Round(Vector3 v) => new(Mathf.Round(v.x), Mathf.Round(v.y), Mathf.Round(v.z));
 
-    /// <summary>Rounds each component to the nearest multiple of the given step size and returns it as a new vector.</summary>
+    /// <summary>Rounds each component to the given number of decimal places.</summary>
     /// <param name="v">The vector to round</param>
-    /// <param name="step">The step size defines the interval between two possible rounded values.</param>
-    public static Vector3 Round(Vector3 v, float step) {
-        // I'm not sure why, but the inverse step size with inverted operators gives cleanly rounded results.
-        // Using Round(value * step) / step had floating point deviations.
-        var invStep = 1f / step;
-        return new(Mathf.Round(v.x * invStep) / invStep, Mathf.Round(v.y * invStep) / invStep, Mathf.Round(v.z * invStep) / invStep);
+    /// <param name="decimals">The number of digits after the decimal point to keep.</param>
+    public static Vector3 Round(Vector3 v, int decimals) {
+        return new Vector3((float)decimal.Round((decimal)v.x, decimals), (float)decimal.Round((decimal)v.y, decimals), (float)decimal.Round((decimal)v.z, decimals));
     }
 
     /// <summary>Returns the component-wise minimum of the two vectors.</summary>

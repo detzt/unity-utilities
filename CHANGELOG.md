@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.6.1] - 2025-04-13
 
 ### Added
-- `MathV.Round` overload with a configurable step size between the valid values.
+- `MathV.Round` overload with a configurable number of decimal digits to keep.
 
 ## [1.6.0] - 2024-08-15
 
