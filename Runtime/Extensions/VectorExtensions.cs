@@ -118,7 +118,12 @@ public static class MathV {
     /// <summary>Rounds each component to the nearest multiple of the given step size and returns it as a new vector.</summary>
     /// <param name="v">The vector to round</param>
     /// <param name="step">The step size defines the interval between two possible rounded values.</param>
-    public static Vector3 Round(Vector3 v, float step) => new(Mathf.Round(v.x / step) * step, Mathf.Round(v.y / step) * step, Mathf.Round(v.z / step) * step);
+    public static Vector3 Round(Vector3 v, float step) {
+        // I'm not sure why, but the inverse step size with inverted operators gives cleanly rounded results.
+        // Using Round(value * step) / step had floating point deviations.
+        var invStep = 1f / step;
+        return new(Mathf.Round(v.x * invStep) / invStep, Mathf.Round(v.y * invStep) / invStep, Mathf.Round(v.z * invStep) / invStep);
+    }
 
     /// <summary>Returns the component-wise minimum of the two vectors.</summary>
     public static Vector3 Min(Vector3 a, Vector3 b) => new(Mathf.Min(a.x, b.x), Mathf.Min(a.y, b.y), Mathf.Min(a.z, b.z));
