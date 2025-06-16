@@ -1,4 +1,5 @@
-﻿using UnityEngine.InputSystem;
+﻿#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// Functionality extensions to the new Input System
@@ -18,3 +19,4 @@ public static class InputSystemExtensions {
         else self.Disable();
     }
 }
+#endif
