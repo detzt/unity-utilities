@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.7.0] - 2025-06-16
+- Added extension methods for `Vector2` analogous to `Vector3`.
+
 ## [1.6.1] - 2025-04-13
 
 ### Added

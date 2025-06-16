@@ -23,9 +23,31 @@ public static class VectorExtensions {
     /// <param name="original">this specifies the class to apply the extension method to</param>
     /// <param name="x">The new x value</param>
     /// <param name="y">The new y value</param>
+    /// <returns>The modified vector</returns>
+    public static Vector2 With(this Vector2 original, float? x = null, float? y = null) => new(x ?? original.x, y ?? original.y);
+
+    /// <summary>
+    /// Returns a copy of this vector with modified values for the given components
+    /// </summary>
+    /// <param name="original">this specifies the class to apply the extension method to</param>
+    /// <param name="x">The new x value</param>
+    /// <param name="y">The new y value</param>
     /// <param name="z">The new z value</param>
     /// <returns>The modified vector</returns>
     public static Vector3 With(this Vector3 original, float? x = null, float? y = null, float? z = null) => new(x ?? original.x, y ?? original.y, z ?? original.z);
+
+    /// <summary>
+    /// Adds the given components to this vector
+    /// </summary>
+    /// <param name="v">this specifies the class to apply the extension method to</param>
+    /// <param name="x">The x value to add</param>
+    /// <param name="y">The y value to add</param>
+    /// <returns>Self for chaining</returns>
+    public static Vector2 Add(this Vector2 v, float? x = null, float? y = null) {
+        if(x.HasValue) v.x += x.Value;
+        if(y.HasValue) v.y += y.Value;
+        return v;
+    }
 
     /// <summary>
     /// Adds the given components to this vector
@@ -65,6 +87,20 @@ public static class VectorExtensions {
     /// </summary>
     /// <param name="a">The nominator</param>
     /// <param name="b">The denominator</param>
+    public static Vector2 Div(this Vector2 a, Vector2 b) {
+        var res = new Vector2(a.x / b.x, a.y / b.y);
+        if(float.IsNaN(res.x)) res.x = 0f;
+        if(float.IsNaN(res.y)) res.y = 0f;
+        return res;
+    }
+
+    /// <summary>
+    /// Calculates the component-wise division of this vector by the given vector.<br/>
+    /// If the division would result in NaN, the component is set to 0.<br/>
+    /// Then returns a new vector without modifying the original.
+    /// </summary>
+    /// <param name="a">The nominator</param>
+    /// <param name="b">The denominator</param>
     public static Vector3 Div(this Vector3 a, Vector3 b) {
         var res = new Vector3(a.x / b.x, a.y / b.y, a.z / b.z);
         if(float.IsNaN(res.x)) res.x = 0f;
@@ -79,7 +115,20 @@ public static class VectorExtensions {
     /// </summary>
     /// <param name="a">The first factor</param>
     /// <param name="b">The second factor</param>
+    public static Vector2 Mul(this Vector2 a, Vector2 b) => new(a.x * b.x, a.y * b.y);
+
+    /// <summary>
+    /// Calculates the component-wise multiplication of this vector by the given vector.<br/>
+    /// Then returns a new vector without modifying the original.
+    /// </summary>
+    /// <param name="a">The first factor</param>
+    /// <param name="b">The second factor</param>
     public static Vector3 Mul(this Vector3 a, Vector3 b) => new(a.x * b.x, a.y * b.y, a.z * b.z);
+
+    /// <summary>
+    /// Returns the squared distance between this and the other vector
+    /// </summary>
+    public static float SqrDist(this Vector2 a, Vector2 b) => (a - b).sqrMagnitude;
 
     /// <summary>
     /// Returns the squared distance between this and the other vector
@@ -100,6 +149,11 @@ public static class VectorExtensions {
     /// Converts this <see cref="Vector2"/> into a <see cref="Vector3"/> by inserting a 0 in the middle
     /// </summary>
     public static Vector3 X0Y(this Vector2 v) => new(v.x, 0f, v.y);
+
+    /// <summary>
+    /// Converts this <see cref="Vector2"/> into a <see cref="Vector3"/> by inserting a 0 at the end
+    /// </summary>
+    public static Vector3 XY0(this Vector2 v) => new(v.x, v.y, 0f);
 }
 
 /// <summary>
