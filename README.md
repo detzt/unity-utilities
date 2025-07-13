@@ -65,6 +65,10 @@ They are implemented using PropertyDrawers for these specific types without a ge
 - `WorldPose` and `LocalPose` can be implicitly created from `Transform`.
   When implicit conversions from other custom types are added, `WorldPose` and `LocalPose` can be used as general purpose parameter that reduce the amount of overloads needed.
 
+## CachedValue
+- Constructed from a calculation and validation function, it caches the result of the calculation and recalculates it only when the validation function returns false.
+- Similar to `Lazy<T>` but with an additional `IsStillValid` function that allows updating the cached value when necessary.
+
 ## Static `Utils` class with the remaining utilities:
 - `EnumValues` iterator, e.g. `foreach(var value in Utils.EnumValues<SomeEnum>())`
 - `ReturnValueAndLogError` utility for lean switch expressions

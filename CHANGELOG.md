@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.8.0] - 2025-07-13
+- Added `CachedValue<T>`.
+
 ## [1.7.0] - 2025-06-16
 - Added extension methods for `Vector2` analogous to `Vector3`.
 
@@ -42,7 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.3.2] - 2024-04-08
 
 ### Fixed
-- `IdenticalTransformOverrides` now also checks for individual euler angles. (-0, 90, -0) == (0, 90, 0)
+- `IdenticalTransformOverrides` now also checks for individual Euler angles. (-0, 90, -0) == (0, 90, 0)
 
 ## [1.3.1] - 2024-03-25
 
