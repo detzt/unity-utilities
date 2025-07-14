@@ -62,7 +62,7 @@ They are implemented using PropertyDrawers for these specific types without a ge
   Similar to Unity's `Transform` but without scale, parent, children, component, and other overhead.
 - They contain the same data, but are semantically different, as they encode the space in which they are to be interpreted.
 - Various `TransformXXX` and `InverseTransformXXX` methods are provided to convert objects between spaces.
-- `WorldPose` and `LocalPose` can be implicitly created from `Transform`.
+- `WorldPose` and `LocalPose` can be implicitly created from `Transform` and `Rigidbody`.
   When implicit conversions from other custom types are added, `WorldPose` and `LocalPose` can be used as general purpose parameter that reduce the amount of overloads needed.
 
 ## CachedValue

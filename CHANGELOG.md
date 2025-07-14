@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.0] - 2025-07-14
+- Added implicit conversions from `Rigidbody` to `WorldPose` and `LocalPose`.
+
 ## [1.8.0] - 2025-07-13
 - Added `CachedValue<T>`.
 

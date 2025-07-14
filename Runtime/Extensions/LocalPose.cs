@@ -13,11 +13,13 @@ public struct LocalPose : System.IEquatable<LocalPose> {
     /// <summary>
     /// The local position of the pose.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Following Unity name")]
     public Vector3 position;
 
     /// <summary>
     /// The local rotation of the pose.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Following Unity name")]
     public Quaternion rotation;
 
 
@@ -34,11 +36,11 @@ public struct LocalPose : System.IEquatable<LocalPose> {
     #endregion
     #region Properties
 
-    private static readonly LocalPose identityPose = new(Vector3.zero, Quaternion.identity);
+    private static readonly LocalPose IdentityPose = new(Vector3.zero, Quaternion.identity);
     /// <summary>
     /// A pose with zero position, and an identity rotation.
     /// </summary>
-    public static LocalPose Identity => identityPose;
+    public static LocalPose Identity => IdentityPose;
 
     /// <summary>
     /// The forward vector of the pose.
@@ -82,6 +84,8 @@ public struct LocalPose : System.IEquatable<LocalPose> {
     #region Implicit conversions
 
     public static implicit operator LocalPose(Transform transform) => new(transform.localPosition, transform.localRotation);
+
+    public static implicit operator LocalPose(Rigidbody rigidbody) => rigidbody.transform.parent.InverseTransformPose(rigidbody);
 
     #endregion
     #region Interpolation

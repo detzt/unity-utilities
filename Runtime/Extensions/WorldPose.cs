@@ -13,11 +13,13 @@ public struct WorldPose : System.IEquatable<WorldPose> {
     /// <summary>
     /// The world space position of the pose.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Following Unity name")]
     public Vector3 position;
 
     /// <summary>
     /// The world space rotation of the pose.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Following Unity name")]
     public Quaternion rotation;
 
 
@@ -34,11 +36,11 @@ public struct WorldPose : System.IEquatable<WorldPose> {
     #endregion
     #region Properties
 
-    private static readonly WorldPose identityPose = new(Vector3.zero, Quaternion.identity);
+    private static readonly WorldPose IdentityPose = new(Vector3.zero, Quaternion.identity);
     /// <summary>
     /// A pose with zero position, and an identity rotation.
     /// </summary>
-    public static WorldPose Identity => identityPose;
+    public static WorldPose Identity => IdentityPose;
 
     /// <summary>
     /// The forward vector of the pose.
@@ -82,6 +84,8 @@ public struct WorldPose : System.IEquatable<WorldPose> {
     #region Implicit conversions
 
     public static implicit operator WorldPose(Transform transform) => new(transform.position, transform.rotation);
+
+    public static implicit operator WorldPose(Rigidbody rigidbody) => new(rigidbody.position, rigidbody.rotation);
 
     #endregion
     #region Transformations
