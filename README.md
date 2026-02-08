@@ -32,7 +32,9 @@ They are implemented using PropertyDrawers for these specific types without a ge
 - `KeyValuePair.Deconstruct`
 
 ### Extensions to Unity Physics:
-- `Overlap*`, `Check*`, and `*Cast` methods that take `*Collider` as a parameter
+- `Overlap*`, `Check*`, `*Cast`, and `Contains` methods that take `*Collider` as a parameter
+- `ToWorldSpace*` extension methods for `BoxCollider`, `SphereCollider`, and `CapsuleCollider`
+- `Contains` extension methods for `BoxCollider`, `SphereCollider`, and `CapsuleCollider`
 - Layer to LayerMask conversion
 
 ### Extensions to Unity Objects:

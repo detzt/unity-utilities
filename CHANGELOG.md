@@ -7,14 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.10.0] - 2026-02-08
+
+### Added
+- `PhysicsExtensions.Contains` method that checks whether a point is inside a given collider.
+- `Contains` extension methods for `BoxCollider`, `SphereCollider`, and `CapsuleCollider`.
+
 ## [1.9.0] - 2025-07-14
-- Added implicit conversions from `Rigidbody` to `WorldPose` and `LocalPose`.
+
+### Added
+- Implicit conversions from `Rigidbody` to `WorldPose` and `LocalPose`.
 
 ## [1.8.0] - 2025-07-13
-- Added `CachedValue<T>`.
+
+### Added
+- `CachedValue<T>`.
 
 ## [1.7.0] - 2025-06-16
-- Added extension methods for `Vector2` analogous to `Vector3`.
+
+### Added
+- Extension methods for `Vector2` analogous to `Vector3`.
 
 ## [1.6.1] - 2025-04-13
 

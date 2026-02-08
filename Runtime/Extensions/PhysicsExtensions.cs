@@ -80,6 +80,15 @@ public static class PhysicsExtensions {
         };
     }
 
+    public static bool Contains(Collider coll, Vector3 point) {
+        return coll switch {
+            BoxCollider boxColl => boxColl.Contains(point),
+            CapsuleCollider capsuleColl => capsuleColl.Contains(point),
+            SphereCollider sphereColl => sphereColl.Contains(point),
+            _ => ReturnValueAndLogError(false, $"PhysicsExtensions.Contains: Unsupported collider {coll}"),
+        };
+    }
+
 #pragma warning disable UNT0028 // warnings about using allocating methods are not relevant here because it is only an API wrapper. They are propagated using [Obsolete]
 
     // Box
@@ -136,6 +145,14 @@ public static class PhysicsExtensions {
         halfExtents = Vector3.Scale(scale, box.size) * 0.5f;
     }
 
+    public static bool Contains(this BoxCollider box, Vector3 point) {
+        box.ToWorldSpaceBox(out Vector3 center, out Vector3 halfExtents, out Quaternion orientation);
+        Vector3 localPoint = Quaternion.Inverse(orientation) * (point - center);
+        return Mathf.Abs(localPoint.x) <= halfExtents.x &&
+               Mathf.Abs(localPoint.y) <= halfExtents.y &&
+               Mathf.Abs(localPoint.z) <= halfExtents.z;
+    }
+
     // Sphere
 
     public static bool SphereCast(SphereCollider sphere, Vector3 direction, out RaycastHit hitInfo, float maxDistance = Mathf.Infinity,
@@ -180,6 +197,11 @@ public static class PhysicsExtensions {
         Transform t;
         center = (t = sphere.transform).TransformPoint(sphere.center);
         radius = sphere.radius * MathV.Max(MathV.Abs(t.lossyScale));
+    }
+
+    public static bool Contains(this SphereCollider sphere, Vector3 point) {
+        sphere.ToWorldSpaceSphere(out Vector3 center, out float radius);
+        return (point - center).sqrMagnitude <= radius * radius;
     }
 
     // Capsule
@@ -257,5 +279,18 @@ public static class PhysicsExtensions {
 
         point0 = center + dir * (height * 0.5f - radius);
         point1 = center - dir * (height * 0.5f - radius);
+    }
+
+    public static bool Contains(this CapsuleCollider capsule, Vector3 point) {
+        capsule.ToWorldSpaceCapsule(out Vector3 point0, out Vector3 point1, out float radius);
+        Vector3 axis = point1 - point0;
+        float lengthSqr = axis.sqrMagnitude;
+        if(lengthSqr == 0f) {
+            // Degenerate to sphere
+            return (point - point0).sqrMagnitude <= radius * radius;
+        }
+        float t = Vector3.Dot(point - point0, axis) / lengthSqr;
+        Vector3 projection = point0 + Mathf.Clamp01(t) * axis;
+        return (point - projection).sqrMagnitude <= radius * radius;
     }
 }
