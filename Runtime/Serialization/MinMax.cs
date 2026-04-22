@@ -9,13 +9,16 @@ public struct MinMax<T> {
     [SerializeField] public T Min;
     [SerializeField] public T Max;
 
-    public readonly override string ToString() => $"({Min} - {Max})";
+    public override readonly string ToString() => $"({Min} - {Max})";
 }
 
 public static class MinMaxExtensions {
     public static float Clamp(this MinMax<float> self, float value) => Mathf.Clamp(value, self.Min, self.Max);
-    public static Vector3 Lerp(this MinMax<Vector3> self, float alpha) => Vector3.Lerp(self.Min, self.Max, alpha);
+    public static Vector2 Clamp(this MinMax<Vector2> self, Vector2 value) => MathV.Clamp(value, self.Min, self.Max);
+    public static Vector3 Clamp(this MinMax<Vector3> self, Vector3 value) => MathV.Clamp(value, self.Min, self.Max);
     public static float Lerp(this MinMax<float> self, float alpha) => Mathf.Lerp(self.Min, self.Max, alpha);
+    public static Vector2 Lerp(this MinMax<Vector2> self, float alpha) => Vector2.Lerp(self.Min, self.Max, alpha);
+    public static Vector3 Lerp(this MinMax<Vector3> self, float alpha) => Vector3.Lerp(self.Min, self.Max, alpha);
     public static float InverseLerp(this MinMax<float> self, float value) => Mathf.InverseLerp(self.Min, self.Max, value);
     public static float Random(this MinMax<float> self) => UnityEngine.Random.Range(self.Min, self.Max);
     public static float MinSqr(this MinMax<float> self) => self.Min * self.Min;

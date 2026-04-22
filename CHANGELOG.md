@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.11.0] - 2026-04-22
+
+### Added
+- Added `Clamp` and `Lerp` for `MinMax<Vector2>` and `MinMax<Vector3>`.
+
 ## [1.10.0] - 2026-02-08
 
 ### Added
