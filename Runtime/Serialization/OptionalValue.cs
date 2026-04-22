@@ -72,5 +72,5 @@ public struct OptionalValue<T> {
         this.enabled = enabled;
     }
 
-    public readonly override string ToString() => Enabled ? Value.ToString() : "Disabled";
+    public override readonly string ToString() => Enabled ? Value.ToString() : "Disabled";
 }

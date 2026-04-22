@@ -72,7 +72,7 @@ public struct WorldPose : System.IEquatable<WorldPose> {
         return position == other.position && rotation == other.rotation;
     }
 
-    public override int GetHashCode() {
+    public override readonly int GetHashCode() {
         return position.GetHashCode() ^ (rotation.GetHashCode() << 1);
     }
 
