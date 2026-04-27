@@ -37,6 +37,10 @@ They are implemented using PropertyDrawers for these specific types without a ge
 - `Contains` extension methods for `BoxCollider`, `SphereCollider`, and `CapsuleCollider`
 - Layer to LayerMask conversion
 
+### Extensions to Unity's Animator:
+- `IsInState` extension method for `Animator` returns whether the animator is in the specified state.
+- `GetTrigger` extension method for `Animator` that wraps `Animator.GetBool` and can be used as a semantic companion to `Animator.SetTrigger`.
+
 ### Extensions to Unity Objects:
 - `HasComponent`
 - `GetOrAddComponent`

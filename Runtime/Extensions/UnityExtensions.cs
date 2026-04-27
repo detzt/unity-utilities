@@ -2,7 +2,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Functionality extensions to Unity class(es)
+/// Functionality extensions to core Unity classes like GameObject, Component, and Transform.
 /// </summary>
 public static class UnityExtensions {
 
