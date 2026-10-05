@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Functionality extensions on the Vector class
@@ -185,14 +184,40 @@ public static class MathV {
     /// <summary>Returns the component-wise maximum of the vector and the given float.</summary>
     public static Vector3 Max(Vector3 a, float b) => new(Mathf.Max(a.x, b), Mathf.Max(a.y, b), Mathf.Max(a.z, b));
 
-    [PublicAPI]
+    /// <summary>Returns the component-wise clamped value of <paramref name="v"/> between <paramref name="min"/> and <paramref name="max"/>.</summary>
+    public static Vector2 Clamp(Vector2 v, Vector2 min, Vector2 max) => new(Mathf.Clamp(v.x, min.x, max.x), Mathf.Clamp(v.y, min.y, max.y));
+
     /// <summary>Returns the component-wise clamped value of <paramref name="v"/> between <paramref name="min"/> and <paramref name="max"/>.</summary>
     public static Vector3 Clamp(Vector3 v, Vector3 min, Vector3 max) => new(Mathf.Clamp(v.x, min.x, max.x), Mathf.Clamp(v.y, min.y, max.y), Mathf.Clamp(v.z, min.z, max.z));
 
-    [PublicAPI]
+    /// <summary>Returns the component-wise clamped value of <paramref name="v"/> between <paramref name="min"/> and <paramref name="max"/>.</summary>
+    public static Vector2 Clamp(Vector2 v, float min, float max) => new(Mathf.Clamp(v.x, min, max), Mathf.Clamp(v.y, min, max));
+
+    /// <summary>Returns the component-wise clamped value of <paramref name="v"/> between <paramref name="min"/> and <paramref name="max"/>.</summary>
+    public static Vector3 Clamp(Vector3 v, float min, float max) => new(Mathf.Clamp(v.x, min, max), Mathf.Clamp(v.y, min, max), Mathf.Clamp(v.z, min, max));
+
+    /// <summary>Returns the component-wise looped value between 0 and the given length.</summary>
+    public static Vector2 Repeat(Vector2 v, Vector2 length) => new(Mathf.Repeat(v.x, length.x), Mathf.Repeat(v.y, length.y));
+
+    /// <summary>Returns the component-wise looped value between 0 and the given length.</summary>
+    public static Vector3 Repeat(Vector3 v, Vector3 length) => new(Mathf.Repeat(v.x, length.x), Mathf.Repeat(v.y, length.y), Mathf.Repeat(v.z, length.z));
+
+    /// <summary>Returns the component-wise looped value between the given minimum and maximum values.</summary>
+    public static Vector2 Repeat(Vector2 v, Vector2 min, Vector2 max) => new(Mathf.Repeat(v.x - min.x, max.x - min.x) + min.x, Mathf.Repeat(v.y - min.y, max.y - min.y) + min.y);
+
+    /// <summary>Returns the component-wise looped value between the given minimum and maximum values.</summary>
+    public static Vector3 Repeat(Vector3 v, Vector3 min, Vector3 max) => new(Mathf.Repeat(v.x - min.x, max.x - min.x) + min.x, Mathf.Repeat(v.y - min.y, max.y - min.y) + min.y, Mathf.Repeat(v.z - min.z, max.z - min.z) + min.z);
+
+    /// <summary>Returns the component-wise looped value between the given minimum and maximum values.</summary>
+    public static Vector2 Repeat(Vector2 v, float min, float max) => new(Mathf.Repeat(v.x - min, max - min) + min, Mathf.Repeat(v.y - min, max - min) + min);
+
+    /// <summary>Returns the component-wise looped value between the given minimum and maximum values.</summary>
+    public static Vector3 Repeat(Vector3 v, float min, float max) => new(Mathf.Repeat(v.x - min, max - min) + min, Mathf.Repeat(v.y - min, max - min) + min, Mathf.Repeat(v.z - min, max - min) + min);
+
     /// <summary>Returns a random vector with components between 0 and the given range (both inclusive).</summary>
     public static Vector3 Random(Vector3 range) => new(UnityEngine.Random.Range(0f, range.x), UnityEngine.Random.Range(0f, range.y), UnityEngine.Random.Range(0f, range.z));
 
+    /* Operators that interact between components */
 
     /// <summary> Returns the biggest component of the given vector</summary>
     public static float Max(Vector3 v) => Mathf.Max(v.x, Mathf.Max(v.y, v.z));

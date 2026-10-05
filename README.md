@@ -21,7 +21,7 @@ They are implemented using PropertyDrawers for these specific types without a ge
 - `Vector3.XY`, `Vector3.XZ`, and `Vector2.X0Y`, `Vector2.XY0` swizzling
 
 ### `MathV` static class with component wise analogs of Mathf methods:
-- `Abs`, `Round`, `Max`, `Clamp`, and `Random` that operate on a single vector
+- `Abs`, `Round`, `Max`, `Clamp`, `Repeat`, and `Random` that operate on a single vector
 - `Min` and `Max` that operate on two vectors
 - `Max` and `Sum` that iterate over the components of a single vector
 - `MinMax` that returns an ordered pair

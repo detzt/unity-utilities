@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.13.0] - 2026-10-05
+- Added `Repeat` for `Vector2` and `Vector3`.
+- Added `Clamp` for vector types between two floats.
+
 ## [1.12.0] - 2026-04-27
 
 ### Added
