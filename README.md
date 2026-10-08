@@ -16,7 +16,7 @@ They are implemented using PropertyDrawers for these specific types without a ge
 ## Extensions
 ### Extensions to Unity Vector types:
 - `.With`, `.Add`, and `.Rotate` modifications, e.g. `Vector3 v = transform.forward.With(y: 0f);`
-- Component wise `Mul` and `Div`
+- Component wise `Mul`, `Div`, and `Mod`
 - `SqrDist` semantic shorthand
 - `Vector3.XY`, `Vector3.XZ`, and `Vector2.X0Y`, `Vector2.XY0` swizzling
 

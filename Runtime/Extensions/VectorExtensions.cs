@@ -125,6 +125,22 @@ public static class VectorExtensions {
     public static Vector3 Mul(this Vector3 a, Vector3 b) => new(a.x * b.x, a.y * b.y, a.z * b.z);
 
     /// <summary>
+    /// Calculates the component-wise modulo of this vector by the given vector.<br/>
+    /// Then returns a new vector without modifying the original.
+    /// </summary>
+    /// <param name="a">The value to modulate</param>
+    /// <param name="b">The modulus interval</param>
+    public static Vector2 Mod(this Vector2 a, Vector2 b) => new(a.x % b.x, a.y % b.y);
+
+    /// <summary>
+    /// Calculates the component-wise modulo of this vector by the given vector.<br/>
+    /// Then returns a new vector without modifying the original.
+    /// </summary>
+    /// <param name="a">The value to modulate</param>
+    /// <param name="b">The modulus interval</param>
+    public static Vector3 Mod(this Vector3 a, Vector3 b) => new(a.x % b.x, a.y % b.y, a.z % b.z);
+
+    /// <summary>
     /// Returns the squared distance between this and the other vector
     /// </summary>
     public static float SqrDist(this Vector2 a, Vector2 b) => (a - b).sqrMagnitude;
@@ -163,10 +179,23 @@ public static class MathV {
     /* Operators that are applied to every component */
 
     /// <summary>For each component, takes the absolute value value and returns it as a new vector.</summary>
+    public static Vector2 Abs(Vector2 v) => new(Mathf.Abs(v.x), Mathf.Abs(v.y));
+
+    /// <summary>For each component, takes the absolute value value and returns it as a new vector.</summary>
     public static Vector3 Abs(Vector3 v) => new(Mathf.Abs(v.x), Mathf.Abs(v.y), Mathf.Abs(v.z));
 
     /// <summary>Rounds each component to the nearest integer and returns it as a new vector.</summary>
+    public static Vector2 Round(Vector2 v) => new(Mathf.Round(v.x), Mathf.Round(v.y));
+
+    /// <summary>Rounds each component to the nearest integer and returns it as a new vector.</summary>
     public static Vector3 Round(Vector3 v) => new(Mathf.Round(v.x), Mathf.Round(v.y), Mathf.Round(v.z));
+
+    /// <summary>Rounds each component to the given number of decimal places.</summary>
+    /// <param name="v">The vector to round</param>
+    /// <param name="decimals">The number of digits after the decimal point to keep.</param>
+    public static Vector2 Round(Vector2 v, int decimals) {
+        return new Vector2((float)decimal.Round((decimal)v.x, decimals), (float)decimal.Round((decimal)v.y, decimals));
+    }
 
     /// <summary>Rounds each component to the given number of decimal places.</summary>
     /// <param name="v">The vector to round</param>
@@ -176,10 +205,19 @@ public static class MathV {
     }
 
     /// <summary>Returns the component-wise minimum of the two vectors.</summary>
+    public static Vector2 Min(Vector2 a, Vector2 b) => new(Mathf.Min(a.x, b.x), Mathf.Min(a.y, b.y));
+
+    /// <summary>Returns the component-wise minimum of the two vectors.</summary>
     public static Vector3 Min(Vector3 a, Vector3 b) => new(Mathf.Min(a.x, b.x), Mathf.Min(a.y, b.y), Mathf.Min(a.z, b.z));
 
     /// <summary>Returns the component-wise maximum of the two vectors.</summary>
+    public static Vector2 Max(Vector2 a, Vector2 b) => new(Mathf.Max(a.x, b.x), Mathf.Max(a.y, b.y));
+
+    /// <summary>Returns the component-wise maximum of the two vectors.</summary>
     public static Vector3 Max(Vector3 a, Vector3 b) => new(Mathf.Max(a.x, b.x), Mathf.Max(a.y, b.y), Mathf.Max(a.z, b.z));
+
+    /// <summary>Returns the component-wise maximum of the vector and the given float.</summary>
+    public static Vector2 Max(Vector2 a, float b) => new(Mathf.Max(a.x, b), Mathf.Max(a.y, b));
 
     /// <summary>Returns the component-wise maximum of the vector and the given float.</summary>
     public static Vector3 Max(Vector3 a, float b) => new(Mathf.Max(a.x, b), Mathf.Max(a.y, b), Mathf.Max(a.z, b));
@@ -215,12 +253,21 @@ public static class MathV {
     public static Vector3 Repeat(Vector3 v, float min, float max) => new(Mathf.Repeat(v.x - min, max - min) + min, Mathf.Repeat(v.y - min, max - min) + min, Mathf.Repeat(v.z - min, max - min) + min);
 
     /// <summary>Returns a random vector with components between 0 and the given range (both inclusive).</summary>
+    public static Vector2 Random(Vector2 range) => new(UnityEngine.Random.Range(0f, range.x), UnityEngine.Random.Range(0f, range.y));
+
+    /// <summary>Returns a random vector with components between 0 and the given range (both inclusive).</summary>
     public static Vector3 Random(Vector3 range) => new(UnityEngine.Random.Range(0f, range.x), UnityEngine.Random.Range(0f, range.y), UnityEngine.Random.Range(0f, range.z));
 
     /* Operators that interact between components */
 
     /// <summary> Returns the biggest component of the given vector</summary>
+    public static float Max(Vector2 v) => Mathf.Max(v.x, v.y);
+
+    /// <summary> Returns the biggest component of the given vector</summary>
     public static float Max(Vector3 v) => Mathf.Max(v.x, Mathf.Max(v.y, v.z));
+
+    /// <summary> Returns the sum of all components</summary>
+    public static float Sum(Vector2 v) => v.x + v.y;
 
     /// <summary> Returns the sum of all components</summary>
     public static float Sum(Vector3 v) => v.x + v.y + v.z;
