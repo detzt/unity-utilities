@@ -124,6 +124,7 @@ public static class PhysicsExtensions {
         return Physics.CheckBox(center, halfExtents, orientation, layerMask, queryTriggerInteraction);
     }
 
+    [System.Obsolete("This method allocates memory. Use OverlapBoxNonAlloc instead.")]
     public static Collider[] OverlapBox(BoxCollider box, int layerMask = Physics.DefaultRaycastLayers,
         QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.UseGlobal) {
         box.ToWorldSpaceBox(out Vector3 center, out Vector3 halfExtents, out Quaternion orientation);
