@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.15.0] - 2026-10-15
+- Applied `NoAutoStaticsCleanup` attribute where necessary.
+
 ## [1.14.0] - 2026-10-08
 - Added `Mod` for `Vector2` and `Vector3`.
 - Added `Vector2` versions where only `Vector3` versions were implemented before.

@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 using System.Diagnostics.CodeAnalysis;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 using UnityEngine.Assertions;
 using static Utils;
@@ -31,6 +32,7 @@ using static Utils;
 [SuppressMessage("ReSharper", "UnusedMember.Global")] // Unused methods are suppressed for this class
 [SuppressMessage("ReSharper", "Unity.PreferNonAllocApi")] // Allocating methods are only passed through
 public static class PhysicsExtensions {
+    [NoAutoStaticsCleanup]
     private static int[] masksByLayer; // Representation of the layer collision matrix in physics settings
 
     /// <summary>
